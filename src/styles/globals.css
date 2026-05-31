@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  background: #04010d;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #04010d;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100svh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(174, 60, 255, 0.2), transparent 26rem),
+    radial-gradient(circle at 82% 10%, rgba(1, 162, 237, 0.16), transparent 24rem),
+    linear-gradient(180deg, #04010d 0%, #060312 52%, #09051a 100%);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(174, 60, 255, 0.38);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060312;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ae3cff, #01a2ed);
+  border-radius: 999px;
+}
+
+@layer components {
+  .nexa-shell {
+    @apply mx-auto w-full max-w-[1480px] px-5 sm:px-8 lg:px-12;
+  }
+
+  .glass-panel {
+    @apply border border-white/10 bg-white/[0.035] shadow-card-glow backdrop-blur-2xl;
+  }
+
+  .neon-border {
+    position: relative;
+  }
+
+  .neon-border::before {
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    content: '';
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(246, 97, 253, 0.78), rgba(95, 59, 255, 0.34), rgba(1, 162, 237, 0.72));
+    opacity: 0.7;
+  }
+
+  .nexa-grid-bg {
+    background-image:
+      linear-gradient(rgba(85, 98, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(85, 98, 255, 0.08) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(circle at 50% 50%, black, transparent 74%);
+  }
+
+  .gradient-text {
+    background: linear-gradient(100deg, #f661fd 0%, #ae3cff 35%, #5562ff 65%, #01a2ed 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gradient-line {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ae3cff 28%, #01a2ed 50%, #5f3bff 74%, transparent);
+    box-shadow: 0 0 22px rgba(174, 60, 255, 0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
