@@ -17,11 +17,13 @@
 }
 
 html {
+  overflow-x: hidden;
   background: #04010d;
   scroll-behavior: smooth;
 }
 
 body {
+  width: 100%;
   min-width: 320px;
   min-height: 100svh;
   margin: 0;
@@ -31,6 +33,11 @@ body {
     radial-gradient(circle at 82% 10%, rgba(1, 162, 237, 0.16), transparent 24rem),
     linear-gradient(180deg, #04010d 0%, #060312 52%, #09051a 100%);
   color: rgba(255, 255, 255, 0.9);
+}
+
+#root {
+  min-height: 100svh;
+  overflow-x: hidden;
 }
 
 button,
@@ -69,7 +76,7 @@ a {
 
 @layer components {
   .nexa-shell {
-    @apply mx-auto w-full max-w-[1480px] px-5 sm:px-8 lg:px-12;
+    @apply mx-auto w-full max-w-[1760px] px-5 sm:px-8 lg:px-12 2xl:px-16;
   }
 
   .glass-panel {

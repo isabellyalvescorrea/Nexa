@@ -93,7 +93,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -14 }}
             transition={{ duration: 0.24 }}
-            className="mx-5 rounded-2xl bg-[#050214]/96 px-5 pb-6 pt-2 shadow-[0_24px_80px_rgba(5,2,20,0.55)] lg:hidden"
+            className="relative z-[60] mx-5 rounded-2xl border border-nexa-violet/25 bg-[#050214] px-5 pb-6 pt-2 shadow-[0_24px_80px_rgba(5,2,20,0.55),0_0_34px_rgba(174,60,255,0.16)] lg:hidden"
           >
             <div className="mx-auto flex max-w-md flex-col gap-2">
               {marketingLinks.map((link) => (
@@ -104,7 +104,7 @@ export function Header() {
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     cn(
-                      'rounded-lg px-4 py-3 text-sm font-medium text-white/78 [transition:all_0.3s_ease] hover:bg-white/[0.05] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.56)]',
+                      'flex items-center rounded-lg px-4 py-3 text-sm font-medium text-white/78 [transition:all_0.3s_ease] hover:bg-white/[0.05] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.56)]',
                       isActive &&
                         'bg-white/[0.06] text-[#B549F0] drop-shadow-[0_0_10px_rgba(181,73,240,0.5)] shadow-[inset_0_0_0_1px_rgba(181,73,240,0.3)]',
                     )

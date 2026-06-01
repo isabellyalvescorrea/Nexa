@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
-import { useEffect, type ReactNode } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Menu, X } from 'lucide-react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import landingHero from '@/assets/generated/landing-hero.webp'
 import logoNexa from '@/assets/logo.png'
@@ -26,19 +27,22 @@ function LandingButton({
   children,
   className,
   subtle,
+  block,
 }: {
   to: string
   children: ReactNode
   className?: string
   subtle?: boolean
+  block?: boolean
 }) {
   return (
-    <motion.div whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.985 }}>
+    <motion.div whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.985 }} className={cn(block && 'w-full')}>
       <Link
         to={to}
         className={cn(
           'relative inline-flex items-center justify-center overflow-hidden rounded-lg border text-sm font-semibold text-white transition duration-300',
           'before:absolute before:inset-0 before:bg-white/[0.07] before:opacity-0 before:transition before:duration-300 hover:before:opacity-100',
+          block && 'w-full',
           subtle
             ? 'border-white/10 bg-[#050615]/45 px-8 py-4 shadow-[0_0_22px_rgba(95,59,255,0.14)] hover:border-nexa-violet/55 hover:shadow-[0_0_28px_rgba(85,98,255,0.26)]'
             : 'border-[rgba(174,60,255,0.65)] bg-[linear-gradient(90deg,#AE3CFF_0%,#5F3BFF_48%,#01A2ED_100%)] shadow-[0_0_16px_rgba(174,60,255,0.35),0_0_24px_rgba(1,162,237,0.25),inset_0_0_14px_rgba(255,255,255,0.08)] hover:bg-[linear-gradient(90deg,#AE3CFF_0%,#5F3BFF_48%,#01A2ED_100%)] hover:shadow-[0_0_22px_rgba(174,60,255,0.46),0_0_32px_rgba(1,162,237,0.32),inset_0_0_18px_rgba(255,255,255,0.10)]',
@@ -52,6 +56,8 @@ function LandingButton({
 }
 
 function LandingHeader() {
+  const [open, setOpen] = useState(false)
+
   const navClass = ({ isActive }: { isActive: boolean }) =>
     cn(
       'group relative flex h-12 items-center px-3 text-base font-medium text-white/90 [transition:all_0.3s_ease] after:absolute after:bottom-0 after:left-3 after:right-3 after:h-px after:origin-center after:scale-x-0 after:bg-nexa-gradient after:opacity-0 after:shadow-[0_0_18px_rgba(181,73,240,0.88)] after:[transition:all_0.3s_ease] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.62)] hover:after:scale-x-100 hover:after:opacity-100',
@@ -95,7 +101,56 @@ function LandingHeader() {
             Painel
           </LandingButton>
         </div>
+
+        <button
+          type="button"
+          aria-label={open ? 'Fechar menu' : 'Abrir menu'}
+          onClick={() => setOpen((current) => !current)}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-white/10 bg-[#050615]/45 text-white shadow-[0_0_22px_rgba(95,59,255,0.2)] lg:hidden"
+        >
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: 0.24 }}
+            className="relative z-[60] mx-5 rounded-2xl border border-nexa-violet/25 bg-[#050214] px-5 pb-6 pt-2 shadow-[0_24px_80px_rgba(5,2,20,0.55),0_0_34px_rgba(174,60,255,0.16)] lg:hidden"
+          >
+            <div className="mx-auto flex max-w-md flex-col gap-2">
+              {marketingLinks.map((link) => (
+                <NavLink
+                  key={link.href}
+                  to={link.href}
+                  end={link.href === '/'}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    cn(
+                      'flex items-center rounded-lg px-4 py-3 text-sm font-medium text-white/78 [transition:all_0.3s_ease] hover:bg-white/[0.05] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.56)]',
+                      isActive &&
+                        'bg-white/[0.06] text-[#B549F0] drop-shadow-[0_0_10px_rgba(181,73,240,0.5)] shadow-[inset_0_0_0_1px_rgba(181,73,240,0.3)]',
+                    )
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+              <div className="grid grid-cols-2 gap-3 pt-3 max-[380px]:grid-cols-1">
+                <LandingButton to="/login" subtle block>
+                  Login
+                </LandingButton>
+                <LandingButton to="/painel" block>
+                  Painel
+                </LandingButton>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }
@@ -106,12 +161,12 @@ function PortalVisual() {
       initial={{ opacity: 0, x: 34, scale: 0.98 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ ...softTransition, delay: 0.12 }}
-      className="pointer-events-none absolute inset-y-0 right-[-1.5vw] z-10 w-[64vw] min-w-[730px] max-w-[1060px] max-lg:right-1/2 max-lg:w-[880px] max-lg:translate-x-1/2 max-md:w-[700px]"
+      className="pointer-events-none absolute inset-y-0 right-[clamp(-5rem,-2vw,-1rem)] z-10 w-[min(66vw,1220px)] min-w-[730px] max-w-[1220px] max-lg:relative max-lg:inset-auto max-lg:mx-auto max-lg:mt-8 max-lg:h-[clamp(340px,58vw,560px)] max-lg:w-full max-lg:min-w-0 max-lg:max-w-[860px] max-lg:translate-x-0 max-md:h-[clamp(300px,82vw,460px)] max-sm:h-[clamp(260px,88vw,390px)] 2xl:w-[min(68vw,1400px)] 2xl:max-w-[1400px]"
     >
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute inset-y-[7%] right-0 w-full overflow-hidden"
+        className="absolute inset-y-[7%] right-0 w-full overflow-hidden max-lg:inset-y-0"
         style={{
           WebkitMaskImage:
             'radial-gradient(ellipse at 55% 52%, #000 0%, #000 47%, rgba(0,0,0,.58) 62%, transparent 86%)',
@@ -156,40 +211,40 @@ export function LandingPage() {
   }, [])
 
   return (
-    <main className="relative h-[100svh] overflow-hidden bg-[#050214] text-white max-lg:h-auto max-lg:min-h-screen">
+    <main className="relative min-h-[100svh] overflow-x-hidden bg-[#050214] text-white lg:h-[100svh] lg:overflow-hidden">
       <LandingHeader />
       <ParticleField density="high" motion="cinematic" className="z-20 opacity-95 mix-blend-screen" />
       <div className="absolute inset-0 z-0 nexa-grid-bg opacity-[0.055]" />
       <div className="absolute left-[14%] top-[26%] z-0 h-64 w-64 rounded-full bg-nexa-violet/10 blur-3xl" />
-      <PortalVisual />
 
-      <section className="nexa-shell relative z-30 grid h-[100svh] grid-cols-[0.65fr_1fr] items-center gap-2 bg-[#050214]/0 pb-8 pt-[104px] max-lg:h-auto max-lg:min-h-screen max-lg:grid-cols-1 max-lg:pb-12 max-lg:pt-24">
+      <section className="nexa-shell relative z-30 grid min-h-[100svh] grid-cols-1 items-center bg-[#050214]/0 pb-12 pt-24 max-lg:content-start lg:h-[100svh] lg:grid-cols-[0.62fr_1fr] lg:gap-2 lg:pb-8 lg:pt-[104px] xl:grid-cols-[0.65fr_1fr] 2xl:grid-cols-[0.68fr_1fr]">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="relative ml-[clamp(1.5rem,3vw,3.5rem)] max-w-[670px] max-lg:ml-0 max-lg:pt-4"
+          className="relative z-30 mx-auto w-full max-w-[670px] pt-4 text-center lg:mx-0 lg:ml-[clamp(1.5rem,3vw,3.5rem)] lg:max-w-[min(43vw,760px)] lg:text-left 2xl:max-w-[820px]"
         >
           <motion.h1
             variants={fadeUp}
             transition={softTransition}
-            className="font-display text-[5.05rem] font-bold uppercase leading-[1.02] text-white drop-shadow-[0_0_24px_rgba(255,255,255,0.12)] max-xl:text-[4.35rem] max-lg:text-[4rem] max-md:text-[3rem] max-sm:text-[2.45rem]"
+            className="font-display text-[2.65rem] font-bold uppercase leading-[1.02] text-white drop-shadow-[0_0_24px_rgba(255,255,255,0.12)] max-[380px]:text-[2.35rem] sm:text-[3.3rem] md:text-[4rem] lg:text-[4.7rem] xl:text-[5.05rem] 2xl:text-[5.65rem] min-[1800px]:text-[6.45rem] min-[2200px]:text-[7.15rem]"
           >
             <span className="block">Descubra.</span>
             <span className="block">Escolha.</span>
             <GradientText>Construa.</GradientText>
           </motion.h1>
-          <motion.p variants={fadeUp} transition={softTransition} className="mt-6 max-w-[575px] text-[1.18rem] leading-9 text-white/86 max-xl:max-w-[540px] max-xl:text-lg max-xl:leading-8 max-sm:text-base max-sm:leading-7">
+          <motion.p variants={fadeUp} transition={softTransition} className="mx-auto mt-6 max-w-[575px] text-base leading-7 text-white/86 sm:text-lg sm:leading-8 md:max-w-[620px] lg:mx-0 lg:text-[1.18rem] lg:leading-9 xl:max-w-[575px] 2xl:max-w-[660px] 2xl:text-[1.3rem] 2xl:leading-10">
             Descubra a área que mais combina com você e receba um plano completo de evolução:{' '}
             <span className="text-nexa-violet">estudos, habilidades, recursos, metas</span> e{' '}
             <span className="text-nexa-cyan">dashboards</span> para acompanhar cada passo da sua jornada.
           </motion.p>
-          <motion.div variants={fadeUp} transition={softTransition} className="mt-10 max-w-[448px] max-xl:max-w-[420px] max-sm:max-w-full">
-            <LandingButton to="/cadastro" className="h-[84px] w-full text-xl uppercase tracking-[0.18em] max-xl:h-[78px] max-xl:text-lg">
+          <motion.div variants={fadeUp} transition={softTransition} className="mx-auto mt-9 max-w-[448px] lg:mx-0 xl:max-w-[448px] 2xl:max-w-[510px] max-sm:max-w-full">
+            <LandingButton to="/cadastro" className="h-[72px] w-full text-base uppercase tracking-[0.16em] sm:h-[76px] sm:text-lg lg:h-[84px] lg:text-xl xl:h-[84px] 2xl:h-[92px] 2xl:text-[1.35rem]">
               Começar agora
             </LandingButton>
           </motion.div>
         </motion.div>
+        <PortalVisual />
       </section>
     </main>
   )

@@ -101,7 +101,20 @@ export function ParticleField({ density = 'medium', motion = 'subtle', className
       canvas.width = Math.floor(width * dpr)
       canvas.height = Math.floor(height * dpr)
       context.setTransform(dpr, 0, 0, dpr, 0, 0)
-      const targetCount = Math.min(maxParticles, Math.max(24, Math.floor((width * height) / particleArea)))
+      const responsiveMax =
+        density === 'high' && motion === 'cinematic'
+          ? width >= 2200
+            ? 460
+            : width >= 1800
+              ? 420
+              : width < 640
+                ? 150
+                : width < 1024
+                  ? 220
+                  : maxParticles
+          : maxParticles
+      const minimumParticles = density === 'high' && motion === 'cinematic' ? (width < 640 ? 72 : 96) : 24
+      const targetCount = Math.min(responsiveMax, Math.max(minimumParticles, Math.floor((width * height) / particleArea)))
       particles = Array.from({ length: targetCount }, createParticle)
     }
 
