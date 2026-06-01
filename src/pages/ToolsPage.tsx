@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useEffect } from 'react'
 import toolsAtmosphere from '@/assets/generated/tools-atmosphere.webp'
 import { fadeUp, softTransition, staggerContainer } from '@/animations/motion'
 import { GlassCard } from '@/components/GlassCard'
@@ -33,20 +34,34 @@ const iconMap: Record<string, LucideIcon> = {
   Star,
 }
 
+const pageBackground = '#050214'
+
 export function ToolsPage() {
+  useEffect(() => {
+    const previousBodyBackground = document.body.style.background
+    const previousHtmlBackground = document.documentElement.style.background
+    document.body.style.background = pageBackground
+    document.documentElement.style.background = pageBackground
+
+    return () => {
+      document.body.style.background = previousBodyBackground
+      document.documentElement.style.background = previousHtmlBackground
+    }
+  }, [])
+
   return (
-    <main className="relative min-h-screen overflow-hidden bg-nexa-dark">
+    <main className="relative min-h-screen overflow-hidden bg-[#050214] text-white">
       <Header />
-      <ParticleField density="medium" className="z-10 opacity-70" />
+      <ParticleField density="high" motion="cinematic" className="z-10 opacity-95 mix-blend-screen" />
       <img
         src={toolsAtmosphere}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-10 blur-[10px] [mask-image:radial-gradient(circle_at_50%_48%,black,transparent_78%)]"
+        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-[0.04] blur-[8px] [mask-image:radial-gradient(circle_at_50%_48%,black,transparent_78%)]"
       />
-      <div className="absolute inset-0 bg-[#04010d]/68" />
+      <div className="absolute inset-0 bg-[#050214]/78" />
 
-      <section className="nexa-shell relative z-20 pb-16 pt-[145px]">
+      <section className="nexa-shell relative z-20 bg-[#050214]/0 pb-16 pt-[145px]">
         <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="mx-auto max-w-[950px] text-center">
           <motion.p variants={fadeUp} transition={softTransition} className="mb-5 text-sm font-semibold uppercase text-nexa-violet">
             • Ferramentas •
@@ -69,12 +84,12 @@ export function ToolsPage() {
             const Icon = iconMap[tool.icon]
             return (
               <GlassCard key={tool.number} variants={fadeUp} transition={softTransition} className="group min-h-[268px] p-5">
-                <div className="mb-2 text-sm font-semibold text-nexa-pink/90">{tool.number}</div>
-                <div className="mx-auto mb-7 flex h-24 w-24 items-center justify-center rounded-full border border-nexa-violet/50 bg-white/[0.025] shadow-neon transition group-hover:border-nexa-pink/80">
-                  <Icon className="h-11 w-11 text-nexa-cyan transition group-hover:text-nexa-pink" />
+                <div className="mb-2 text-sm font-semibold text-nexa-pink/80">{tool.number}</div>
+                <div className="premium-icon-ring mx-auto mb-7 flex h-24 w-24 items-center justify-center rounded-full transition duration-500">
+                  <Icon className="h-10 w-10 text-nexa-cyan drop-shadow-[0_0_10px_rgba(1,162,237,0.38)] transition duration-500 group-hover:text-nexa-pink group-hover:drop-shadow-[0_0_12px_rgba(246,97,253,0.42)]" />
                 </div>
-                <h2 className="font-display text-lg font-bold uppercase text-nexa-pink">{tool.title}</h2>
-                <p className="mt-2 text-sm leading-6 text-white/80">{tool.description}</p>
+                <h2 className="font-display text-[1.02rem] font-semibold uppercase tracking-[0.02em] text-nexa-pink">{tool.title}</h2>
+                <p className="mt-3 text-sm leading-6 text-white/76">{tool.description}</p>
                 <div className="mt-5 text-right text-2xl text-nexa-violet transition group-hover:translate-x-1 group-hover:text-nexa-cyan">→</div>
               </GlassCard>
             )

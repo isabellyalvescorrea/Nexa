@@ -8,11 +8,11 @@ type GlassCardProps = HTMLMotionProps<'div'> & {
 export function GlassCard({ hot, className, children, ...props }: GlassCardProps) {
   return (
     <motion.div
-      whileHover={{ y: -8, scale: 1.01 }}
+      whileHover={{ y: -9, scale: 1.012 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'glass-panel neon-border rounded-nexa p-6 transition duration-300 hover:border-nexa-pink/50 hover:shadow-neon',
-        hot && 'shadow-neon-pink',
+        'premium-card p-6 transition duration-500',
+        hot && 'shadow-[0_0_32px_rgba(246,97,253,0.18)]',
         className,
       )}
       {...props}

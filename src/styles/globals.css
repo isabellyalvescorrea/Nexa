@@ -90,6 +90,89 @@ a {
     opacity: 0.7;
   }
 
+  .premium-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgba(174, 60, 255, 0.48);
+    border-radius: 28px;
+    background:
+      radial-gradient(circle at 18% 0%, rgba(174, 60, 255, 0.08), transparent 34%),
+      radial-gradient(circle at 92% 96%, rgba(1, 162, 237, 0.075), transparent 36%),
+      rgba(7, 5, 20, 0.82);
+    box-shadow:
+      0 18px 54px rgba(1, 162, 237, 0.09),
+      0 0 34px rgba(174, 60, 255, 0.16),
+      0 0 18px rgba(246, 97, 253, 0.08),
+      inset 0 0 26px rgba(255, 255, 255, 0.032);
+    backdrop-filter: blur(18px);
+  }
+
+  .premium-card::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: '';
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(246, 97, 253, 0.76) 0%, rgba(174, 60, 255, 0.7) 28%, rgba(95, 59, 255, 0.42) 58%, rgba(1, 162, 237, 0.62) 100%);
+    opacity: 0.74;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .premium-card::after {
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    content: '';
+    border-radius: inherit;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent 34%),
+      radial-gradient(circle at 50% 0%, rgba(174, 60, 255, 0.07), transparent 42%);
+    opacity: 0.78;
+    pointer-events: none;
+  }
+
+  .premium-card:hover {
+    border-color: rgba(246, 97, 253, 0.72);
+    box-shadow:
+      0 28px 78px rgba(95, 59, 255, 0.2),
+      0 0 46px rgba(246, 97, 253, 0.28),
+      0 0 58px rgba(1, 162, 237, 0.18),
+      inset 0 0 34px rgba(255, 255, 255, 0.052);
+  }
+
+  .premium-card:hover::before {
+    opacity: 0.98;
+  }
+
+  .premium-icon-ring {
+    border: 1px solid rgba(174, 60, 255, 0.56);
+    background:
+      radial-gradient(circle at 45% 38%, rgba(174, 60, 255, 0.1), transparent 46%),
+      rgba(255, 255, 255, 0.012);
+    box-shadow:
+      0 0 24px rgba(174, 60, 255, 0.16),
+      0 0 12px rgba(1, 162, 237, 0.08),
+      inset 0 0 18px rgba(1, 162, 237, 0.07);
+  }
+
+  .premium-card:hover .premium-icon-ring {
+    border-color: rgba(246, 97, 253, 0.84);
+    box-shadow:
+      0 0 34px rgba(246, 97, 253, 0.28),
+      0 0 22px rgba(1, 162, 237, 0.14),
+      inset 0 0 24px rgba(1, 162, 237, 0.1);
+  }
+
   .nexa-grid-bg {
     background-image:
       linear-gradient(rgba(85, 98, 255, 0.08) 1px, transparent 1px),
