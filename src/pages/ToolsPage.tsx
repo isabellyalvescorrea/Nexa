@@ -86,9 +86,20 @@ export function ToolsPage() {
               <GlassCard key={tool.number} variants={fadeUp} transition={softTransition} className="group min-h-[268px] p-5">
                 <div className="mb-2 text-sm font-semibold text-nexa-pink/80">{tool.number}</div>
                 <div className="premium-icon-ring mx-auto mb-7 flex h-24 w-24 items-center justify-center rounded-full transition duration-500">
-                  <Icon className="h-10 w-10 text-nexa-cyan drop-shadow-[0_0_10px_rgba(1,162,237,0.38)] transition duration-500 group-hover:text-nexa-pink group-hover:drop-shadow-[0_0_12px_rgba(246,97,253,0.42)]" />
+                  <Icon className="h-10 w-10 text-[#F661FD] drop-shadow-[0_0_10px_rgba(246,97,253,0.42)] transition duration-500 group-hover:text-[#2DA8FF] group-hover:drop-shadow-[0_0_12px_rgba(45,168,255,0.44)]" />
                 </div>
-                <h2 className="font-display text-[1.02rem] font-semibold uppercase tracking-[0.02em] text-nexa-pink">{tool.title}</h2>
+                <h2
+                  className="font-display text-[1.02rem] font-semibold uppercase tracking-[0.02em]"
+                  style={{
+                    background: 'linear-gradient(90deg, #C64BFF 0%, #2DA8FF 34%, #2DA8FF 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    filter: 'drop-shadow(0 0 8px rgba(45, 168, 255, 0.28))',
+                  }}
+                >
+                  {tool.title}
+                </h2>
                 <p className="mt-3 text-sm leading-6 text-white/76">{tool.description}</p>
                 <div className="mt-5 text-right text-2xl text-nexa-violet transition group-hover:translate-x-1 group-hover:text-nexa-cyan">→</div>
               </GlassCard>

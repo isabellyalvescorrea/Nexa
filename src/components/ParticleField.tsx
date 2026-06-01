@@ -38,8 +38,8 @@ export function ParticleField({ density = 'medium', motion = 'subtle', className
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const particleArea =
-      density === 'high' ? (motion === 'cinematic' ? 3500 : 13000) : density === 'medium' ? 18000 : 26000
-    const maxParticles = density === 'high' ? (motion === 'cinematic' ? 285 : 95) : density === 'medium' ? 68 : 42
+      density === 'high' ? (motion === 'cinematic' ? 2900 : 13000) : density === 'medium' ? 18000 : 26000
+    const maxParticles = density === 'high' ? (motion === 'cinematic' ? 340 : 95) : density === 'medium' ? 68 : 42
     let particles: Particle[] = []
     let animationFrame = 0
     let width = 0
@@ -64,6 +64,9 @@ export function ParticleField({ density = 'medium', motion = 'subtle', className
       const depth = 0.48 + Math.random() * 1.12
       const direction = Math.random()
       const speed = 0.36 + Math.random() * 0.92
+      const prominence = Math.random()
+      const sizeMultiplier = prominence > 0.97 ? 1.32 : prominence > 0.82 ? 1.18 : 1
+      const alphaBonus = prominence > 0.97 ? 0.07 : prominence > 0.82 ? 0.04 : 0
       const vx =
         direction < 0.28
           ? (0.18 + Math.random() * 0.48) * speed * depth
@@ -82,8 +85,8 @@ export function ParticleField({ density = 'medium', motion = 'subtle', className
         y: Math.random() * height,
         vx,
         vy,
-        radius: (0.48 + Math.random() * 1.55) * depth,
-        alpha: 0.17 + Math.random() * 0.38,
+        radius: (0.56 + Math.random() * 1.68) * depth * sizeMultiplier,
+        alpha: Math.min(0.72, 0.21 + Math.random() * 0.44 + alphaBonus),
         phase: Math.random() * Math.PI * 2,
         color: colors[Math.floor(Math.random() * colors.length)],
         depth,

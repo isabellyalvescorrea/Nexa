@@ -71,11 +71,11 @@ function LandingHeader() {
             <Link
               key={link.href}
               to={link.href}
-              className="group relative flex h-12 items-center px-3 text-base font-medium text-white/90 transition hover:text-white"
+              className="group relative flex h-12 items-center px-3 text-base font-medium text-white/90 [transition:all_0.3s_ease] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.62)]"
             >
               {link.label}
               <span className="ml-4 h-1 w-1 rounded-full bg-nexa-pink shadow-[0_0_12px_rgba(246,97,253,0.9)]" />
-              <span className="absolute bottom-0 left-3 right-3 h-px origin-center scale-x-0 bg-nexa-gradient opacity-0 shadow-[0_0_18px_rgba(174,60,255,0.86)] transition duration-300 group-hover:scale-x-100 group-hover:opacity-100" />
+              <span className="absolute bottom-0 left-3 right-3 h-px origin-center scale-x-0 bg-nexa-gradient opacity-0 shadow-[0_0_18px_rgba(181,73,240,0.88)] [transition:all_0.3s_ease] group-hover:scale-x-100 group-hover:opacity-100" />
             </Link>
           ))}
         </nav>

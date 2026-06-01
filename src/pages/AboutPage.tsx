@@ -92,7 +92,18 @@ export function AboutPage() {
                 <div className="premium-icon-ring mx-auto mb-7 flex h-24 w-24 items-center justify-center rounded-full transition duration-500">
                   <Icon className="h-10 w-10 text-nexa-pink drop-shadow-[0_0_10px_rgba(246,97,253,0.42)] transition duration-500" />
                 </div>
-                <h2 className="font-display text-lg font-semibold uppercase tracking-[0.035em] text-nexa-pink">{card.title}</h2>
+                <h2
+                  className="font-display text-lg font-semibold uppercase tracking-[0.035em]"
+                  style={{
+                    background: 'linear-gradient(90deg, #C64BFF 0%, #2DA8FF 34%, #2DA8FF 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    filter: 'drop-shadow(0 0 8px rgba(45, 168, 255, 0.28))',
+                  }}
+                >
+                  {card.title}
+                </h2>
                 <div className="gradient-line mx-auto my-4 w-16 opacity-75" />
                 <p className="mx-auto max-w-[210px] text-sm leading-7 text-white/78">{card.body}</p>
               </GlassCard>

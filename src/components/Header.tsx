@@ -41,9 +41,9 @@ export function Header() {
 
   const navClass = ({ isActive }: { isActive: boolean }) =>
     cn(
-      'group relative flex h-12 items-center px-3 text-base font-medium text-white/90 transition hover:text-white',
+      'group relative flex h-12 items-center px-3 text-base font-medium text-white/90 [transition:all_0.3s_ease] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.62)]',
       isActive &&
-        'text-white after:absolute after:bottom-0 after:left-3 after:right-3 after:h-px after:bg-nexa-gradient after:shadow-[0_0_18px_rgba(174,60,255,0.86)]',
+        'text-[#B549F0] drop-shadow-[0_0_10px_rgba(181,73,240,0.58)] after:absolute after:bottom-0 after:left-3 after:right-3 after:h-px after:bg-nexa-gradient after:shadow-[0_0_18px_rgba(181,73,240,0.88)]',
     )
 
   return (
@@ -103,8 +103,9 @@ export function Header() {
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     cn(
-                      'rounded-lg px-4 py-3 text-sm font-medium text-white/78 transition hover:bg-white/[0.05] hover:text-white',
-                      isActive && 'bg-white/[0.06] text-white shadow-[inset_0_0_0_1px_rgba(174,60,255,0.28)]',
+                      'rounded-lg px-4 py-3 text-sm font-medium text-white/78 [transition:all_0.3s_ease] hover:bg-white/[0.05] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.56)]',
+                      isActive &&
+                        'bg-white/[0.06] text-[#B549F0] drop-shadow-[0_0_10px_rgba(181,73,240,0.5)] shadow-[inset_0_0_0_1px_rgba(181,73,240,0.3)]',
                     )
                   }
                 >
