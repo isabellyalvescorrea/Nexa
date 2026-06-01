@@ -1,4 +1,5 @@
 export const marketingLinks = [
+  { label: 'Início', href: '/' },
   { label: 'Sobre nós', href: '/sobre' },
   { label: 'Ferramentas', href: '/ferramentas' },
 ]

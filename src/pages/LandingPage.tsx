@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useEffect, type ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import landingHero from '@/assets/generated/landing-hero.webp'
 import logoNexa from '@/assets/logo.png'
 import { fadeUp, softTransition, staggerContainer } from '@/animations/motion'
@@ -52,10 +52,17 @@ function LandingButton({
 }
 
 function LandingHeader() {
+  const navClass = ({ isActive }: { isActive: boolean }) =>
+    cn(
+      'group relative flex h-12 items-center px-3 text-base font-medium text-white/90 [transition:all_0.3s_ease] after:absolute after:bottom-0 after:left-3 after:right-3 after:h-px after:origin-center after:scale-x-0 after:bg-nexa-gradient after:opacity-0 after:shadow-[0_0_18px_rgba(181,73,240,0.88)] after:[transition:all_0.3s_ease] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.62)] hover:after:scale-x-100 hover:after:opacity-100',
+      isActive &&
+        'text-[#B549F0] drop-shadow-[0_0_10px_rgba(181,73,240,0.58)] after:scale-x-100 after:opacity-100',
+    )
+
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="nexa-shell flex h-[104px] items-center justify-between gap-6 max-lg:h-20">
-        <Link to="/" aria-label="Ir para a página inicial" className="shrink-0">
+        <div className="shrink-0">
           <img
             src={logoNexa}
             alt="NEXA"
@@ -64,19 +71,19 @@ function LandingHeader() {
             className="h-[72px] w-auto select-none object-contain drop-shadow-[0_0_18px_rgba(174,60,255,0.42)] max-sm:h-[50px]"
             draggable={false}
           />
-        </Link>
+        </div>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-14 lg:flex">
           {marketingLinks.map((link) => (
-            <Link
+            <NavLink
               key={link.href}
               to={link.href}
-              className="group relative flex h-12 items-center px-3 text-base font-medium text-white/90 [transition:all_0.3s_ease] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.62)]"
+              end={link.href === '/'}
+              className={navClass}
             >
               {link.label}
               <span className="ml-4 h-1 w-1 rounded-full bg-nexa-pink shadow-[0_0_12px_rgba(246,97,253,0.9)]" />
-              <span className="absolute bottom-0 left-3 right-3 h-px origin-center scale-x-0 bg-nexa-gradient opacity-0 shadow-[0_0_18px_rgba(181,73,240,0.88)] [transition:all_0.3s_ease] group-hover:scale-x-100 group-hover:opacity-100" />
-            </Link>
+            </NavLink>
           ))}
         </nav>
 

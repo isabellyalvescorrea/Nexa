@@ -49,7 +49,7 @@ export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="nexa-shell flex h-[104px] items-center justify-between gap-6 max-lg:h-20">
-        <NavLink to="/" aria-label="Ir para a pagina inicial" className="flex shrink-0 items-center">
+        <div className="flex shrink-0 items-center">
           <img
             src={logoNexa}
             alt="NEXA"
@@ -58,11 +58,11 @@ export function Header() {
             className="h-[72px] w-auto select-none object-contain drop-shadow-[0_0_18px_rgba(174,60,255,0.42)] max-sm:h-[50px]"
             draggable={false}
           />
-        </NavLink>
+        </div>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-14 lg:flex">
           {marketingLinks.map((link) => (
-            <NavLink key={link.href} to={link.href} className={navClass}>
+            <NavLink key={link.href} to={link.href} end={link.href === '/'} className={navClass}>
               {link.label}
               <span className="ml-4 h-1 w-1 rounded-full bg-nexa-pink shadow-[0_0_12px_rgba(246,97,253,0.9)]" />
             </NavLink>
@@ -100,6 +100,7 @@ export function Header() {
                 <NavLink
                   key={link.href}
                   to={link.href}
+                  end={link.href === '/'}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     cn(

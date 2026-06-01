@@ -20,6 +20,7 @@ import { GradientText } from '@/components/GradientText'
 import { Header } from '@/components/Header'
 import { ParticleField } from '@/components/ParticleField'
 import { toolCards } from '@/data/tools'
+import { neonCardTitleStyle } from '@/utils/neonCardTitleStyle'
 
 const iconMap: Record<string, LucideIcon> = {
   Brain,
@@ -90,13 +91,7 @@ export function ToolsPage() {
                 </div>
                 <h2
                   className="font-display text-[1.02rem] font-semibold uppercase tracking-[0.02em]"
-                  style={{
-                    background: 'linear-gradient(90deg, #C64BFF 0%, #2DA8FF 34%, #2DA8FF 100%)',
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    filter: 'drop-shadow(0 0 8px rgba(45, 168, 255, 0.28))',
-                  }}
+                  style={neonCardTitleStyle}
                 >
                   {tool.title}
                 </h2>

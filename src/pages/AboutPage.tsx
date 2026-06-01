@@ -8,6 +8,7 @@ import { GradientText } from '@/components/GradientText'
 import { Header } from '@/components/Header'
 import { ParticleField } from '@/components/ParticleField'
 import { aboutCards } from '@/data/about'
+import { neonCardTitleStyle } from '@/utils/neonCardTitleStyle'
 
 const iconMap: Record<string, LucideIcon> = {
   Compass,
@@ -88,19 +89,13 @@ export function AboutPage() {
           {aboutCards.map((card) => {
             const Icon = iconMap[card.icon]
             return (
-              <GlassCard key={card.title} variants={fadeUp} transition={softTransition} className="min-h-[352px] px-7 py-8 text-center">
+              <GlassCard key={card.title} variants={fadeUp} transition={softTransition} className="group min-h-[352px] px-7 py-8 text-center">
                 <div className="premium-icon-ring mx-auto mb-7 flex h-24 w-24 items-center justify-center rounded-full transition duration-500">
-                  <Icon className="h-10 w-10 text-nexa-pink drop-shadow-[0_0_10px_rgba(246,97,253,0.42)] transition duration-500" />
+                  <Icon className="h-10 w-10 text-[#F661FD] drop-shadow-[0_0_10px_rgba(246,97,253,0.42)] transition duration-500 group-hover:text-[#2DA8FF] group-hover:drop-shadow-[0_0_12px_rgba(45,168,255,0.44)]" />
                 </div>
                 <h2
                   className="font-display text-lg font-semibold uppercase tracking-[0.035em]"
-                  style={{
-                    background: 'linear-gradient(90deg, #C64BFF 0%, #2DA8FF 34%, #2DA8FF 100%)',
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    filter: 'drop-shadow(0 0 8px rgba(45, 168, 255, 0.28))',
-                  }}
+                  style={neonCardTitleStyle}
                 >
                   {card.title}
                 </h2>
