@@ -215,18 +215,33 @@ export function LandingPage() {
           <motion.h1
             variants={fadeUp}
             transition={softTransition}
-            className="font-display text-[2.65rem] font-bold uppercase leading-[1.02] text-white drop-shadow-[0_0_24px_rgba(255,255,255,0.12)] max-sm:flex max-sm:flex-col max-sm:items-center max-sm:gap-[0.08em] max-sm:leading-none max-[380px]:text-[2.35rem] sm:text-[3.3rem] md:text-[4rem] lg:text-[4.7rem] xl:text-[5.05rem] 2xl:text-[5.65rem] min-[1800px]:text-[6.45rem] min-[2200px]:text-[7.15rem]"
+            className="font-display text-[2.65rem] font-bold uppercase leading-[1.02] text-white drop-shadow-[0_0_24px_rgba(255,255,255,0.12)] max-sm:mx-auto max-sm:flex max-sm:w-fit max-sm:flex-col max-sm:items-start max-sm:gap-[0.08em] max-sm:leading-none max-[380px]:text-[2.35rem] sm:text-[3.3rem] md:text-[4rem] lg:text-[4.7rem] xl:text-[5.05rem] 2xl:text-[5.65rem] min-[1800px]:text-[6.45rem] min-[2200px]:text-[7.15rem]"
           >
-            <span className="block max-sm:whitespace-nowrap max-sm:text-center">Descubra.</span>
-            <span className="block max-sm:whitespace-nowrap max-sm:text-center">Escolha.</span>
-            <span className="block max-sm:whitespace-nowrap max-sm:text-center">
+            <span className="block max-sm:whitespace-nowrap max-sm:text-left">Descubra.</span>
+            <span className="block max-sm:whitespace-nowrap max-sm:text-left">Escolha.</span>
+            <span className="block max-sm:whitespace-nowrap max-sm:text-left">
               <GradientText>Construa.</GradientText>
             </span>
           </motion.h1>
-          <motion.p variants={fadeUp} transition={softTransition} className="mx-auto mt-6 max-w-[575px] text-base leading-7 text-white/86 max-sm:max-w-[min(350px,calc(100vw-40px))] max-sm:px-1 max-sm:leading-[1.62] max-sm:[text-wrap:balance] sm:text-lg sm:leading-8 md:max-w-[620px] lg:mx-0 lg:text-[1.18rem] lg:leading-9 xl:max-w-[575px] 2xl:max-w-[660px] 2xl:text-[1.3rem] 2xl:leading-10">
+          <motion.p variants={fadeUp} transition={softTransition} className="mx-auto mt-6 hidden max-w-[575px] text-base leading-7 text-white/86 sm:block sm:text-lg sm:leading-8 md:max-w-[620px] lg:mx-0 lg:text-[1.18rem] lg:leading-9 xl:max-w-[575px] 2xl:max-w-[660px] 2xl:text-[1.3rem] 2xl:leading-10">
             Descubra a área que mais combina com você e receba um plano completo de evolução:{' '}
             <span className="text-nexa-violet">estudos, habilidades, recursos, metas</span> e{' '}
             <span className="text-nexa-cyan">dashboards</span> para acompanhar cada passo da sua jornada.
+          </motion.p>
+          <motion.p
+            variants={fadeUp}
+            transition={softTransition}
+            className="mx-auto mt-6 w-fit text-center text-[clamp(0.92rem,3.85vw,1rem)] leading-[1.62] text-white/86 sm:hidden"
+          >
+            <span className="block whitespace-nowrap">Descubra a área que mais combina</span>
+            <span className="block whitespace-nowrap">com você e receba um plano completo</span>
+            <span className="block whitespace-nowrap">
+              de evolução: <span className="text-nexa-violet">estudos, habilidades,</span>
+            </span>
+            <span className="block whitespace-nowrap">
+              <span className="text-nexa-violet">recursos, metas</span> e <span className="text-nexa-cyan">dashboards</span>
+            </span>
+            <span className="block whitespace-nowrap">para acompanhar cada passo da sua jornada.</span>
           </motion.p>
           <motion.div variants={fadeUp} transition={softTransition} className="mx-auto mt-9 max-w-[448px] max-sm:w-[min(320px,calc(100vw-56px))] lg:mx-0 xl:max-w-[448px] 2xl:max-w-[510px]">
             <LandingButton to="/cadastro" className="h-[72px] w-full text-base uppercase tracking-[0.16em] sm:h-[76px] sm:text-lg lg:h-[84px] lg:text-xl xl:h-[84px] 2xl:h-[92px] 2xl:text-[1.35rem]">
