@@ -210,16 +210,16 @@ export function LandingPage() {
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="relative z-30 mx-auto w-full max-w-[670px] pt-4 text-center lg:mx-0 lg:ml-[clamp(1.5rem,3vw,3.5rem)] lg:max-w-[min(43vw,760px)] lg:text-left 2xl:max-w-[820px]"
+          className="relative z-30 mx-auto flex w-full max-w-[670px] flex-col items-center pt-4 text-center max-sm:max-w-[360px] lg:mx-0 lg:ml-[clamp(1.5rem,3vw,3.5rem)] lg:max-w-[min(43vw,760px)] lg:items-start lg:text-left 2xl:max-w-[820px]"
         >
           <motion.h1
             variants={fadeUp}
             transition={softTransition}
-            className="font-display text-[2.82rem] font-bold uppercase leading-[1.02] text-white drop-shadow-[0_0_24px_rgba(255,255,255,0.12)] max-sm:mx-auto max-sm:flex max-sm:w-fit max-sm:flex-col max-sm:items-start max-sm:gap-[0.08em] max-sm:leading-none max-[380px]:text-[2.48rem] sm:text-[3.3rem] md:text-[4rem] lg:text-[4.7rem] xl:text-[5.05rem] 2xl:text-[5.65rem] min-[1800px]:text-[6.45rem] min-[2200px]:text-[7.15rem]"
+            className="font-display text-[2.82rem] font-bold uppercase leading-[1.02] text-white drop-shadow-[0_0_24px_rgba(255,255,255,0.12)] max-sm:mx-auto max-sm:flex max-sm:w-fit max-sm:flex-col max-sm:items-center max-sm:gap-[0.08em] max-sm:leading-none max-[380px]:text-[2.48rem] sm:text-[3.3rem] md:text-[4rem] lg:text-[4.7rem] xl:text-[5.05rem] 2xl:text-[5.65rem] min-[1800px]:text-[6.45rem] min-[2200px]:text-[7.15rem]"
           >
-            <span className="block max-sm:whitespace-nowrap max-sm:text-left">Descubra.</span>
-            <span className="block max-sm:whitespace-nowrap max-sm:text-left">Escolha.</span>
-            <span className="block max-sm:whitespace-nowrap max-sm:text-left">
+            <span className="block max-sm:whitespace-nowrap max-sm:text-center">Descubra.</span>
+            <span className="block max-sm:whitespace-nowrap max-sm:text-center">Escolha.</span>
+            <span className="block max-sm:whitespace-nowrap max-sm:text-center">
               <GradientText>Construa.</GradientText>
             </span>
           </motion.h1>
@@ -231,7 +231,7 @@ export function LandingPage() {
           <motion.p
             variants={fadeUp}
             transition={softTransition}
-            className="mx-auto mt-6 w-[min(340px,calc(100vw-40px))] text-left text-[clamp(0.86rem,3.65vw,0.98rem)] leading-[1.58] text-white/86 sm:hidden"
+            className="mx-auto mt-6 w-full max-w-[340px] text-center text-[clamp(0.86rem,3.65vw,0.98rem)] leading-[1.58] text-white/86 sm:hidden"
           >
             <span className="block whitespace-nowrap">Descubra a área que mais combina</span>
             <span className="block whitespace-nowrap">com você e receba um plano completo</span>
@@ -243,7 +243,7 @@ export function LandingPage() {
             </span>
             <span className="block whitespace-nowrap">para acompanhar cada passo da sua jornada.</span>
           </motion.p>
-          <motion.div variants={fadeUp} transition={softTransition} className="mx-auto mt-9 max-w-[448px] max-sm:w-[min(320px,calc(100vw-56px))] lg:mx-0 xl:max-w-[448px] 2xl:max-w-[510px]">
+          <motion.div variants={fadeUp} transition={softTransition} className="mx-auto mt-9 max-w-[448px] max-sm:w-full max-sm:max-w-[320px] lg:mx-0 xl:max-w-[448px] 2xl:max-w-[510px]">
             <LandingButton to="/cadastro" className="h-[72px] w-full text-base uppercase tracking-[0.16em] sm:h-[76px] sm:text-lg lg:h-[84px] lg:text-xl xl:h-[84px] 2xl:h-[92px] 2xl:text-[1.35rem]">
               Começar agora
             </LandingButton>
