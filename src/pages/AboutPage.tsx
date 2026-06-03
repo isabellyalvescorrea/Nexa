@@ -24,10 +24,14 @@ export function AboutPage() {
   useEffect(() => {
     const previousBodyBackground = document.body.style.background
     const previousHtmlBackground = document.documentElement.style.background
+    document.body.classList.add('nexa-mobile-clean-scrollbar')
+    document.documentElement.classList.add('nexa-mobile-clean-scrollbar')
     document.body.style.background = pageBackground
     document.documentElement.style.background = pageBackground
 
     return () => {
+      document.body.classList.remove('nexa-mobile-clean-scrollbar')
+      document.documentElement.classList.remove('nexa-mobile-clean-scrollbar')
       document.body.style.background = previousBodyBackground
       document.documentElement.style.background = previousHtmlBackground
     }
@@ -37,13 +41,15 @@ export function AboutPage() {
     <main className="relative min-h-screen overflow-x-hidden bg-[#050214] text-white">
       <Header />
       <ParticleField density="high" motion="cinematic" className="z-10 opacity-95 mix-blend-screen" />
-      <img
-        src={aboutAtmosphere}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-[0.04] blur-[8px] [mask-image:radial-gradient(circle_at_50%_48%,black,transparent_76%)]"
-      />
-      <div className="absolute inset-0 bg-[#050214]/78" />
+      <div className="absolute inset-0 overflow-hidden">
+        <img
+          src={aboutAtmosphere}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-[0.04] blur-[8px] [mask-image:radial-gradient(circle_at_50%_48%,black,transparent_76%)]"
+        />
+        <div className="absolute inset-0 bg-[#050214]/78" />
+      </div>
 
       <section className="nexa-shell relative z-20 bg-[#050214]/0 pb-14 pt-28 sm:pt-32 lg:pb-16 lg:pt-[145px] 2xl:pt-40">
         <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="mx-auto max-w-[910px] text-center 2xl:max-w-[1040px]">

@@ -143,7 +143,7 @@ function LandingHeader() {
                 <LandingButton to="/login" subtle block>
                   Login
                 </LandingButton>
-                <LandingButton to="/painel" block>
+                <LandingButton to="/painel" block className="min-h-12 px-8 py-4">
                   Painel
                 </LandingButton>
               </div>
@@ -166,13 +166,7 @@ function PortalVisual() {
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute inset-y-[7%] right-0 w-full overflow-hidden max-lg:inset-y-0"
-        style={{
-          WebkitMaskImage:
-            'radial-gradient(ellipse at 55% 52%, #000 0%, #000 47%, rgba(0,0,0,.58) 62%, transparent 86%)',
-          maskImage:
-            'radial-gradient(ellipse at 55% 52%, #000 0%, #000 47%, rgba(0,0,0,.58) 62%, transparent 86%)',
-        }}
+        className="landing-portal-frame absolute inset-y-[7%] right-0 w-full overflow-hidden max-lg:inset-y-0"
       >
         <img
           src={landingHero}
@@ -180,18 +174,12 @@ function PortalVisual() {
           loading="eager"
           fetchPriority="high"
           decoding="sync"
-          className="h-full w-full select-none object-contain opacity-[0.98] mix-blend-screen"
-          style={{
-            WebkitMaskImage:
-              'linear-gradient(90deg, transparent 0%, rgba(0,0,0,.12) 10%, rgba(0,0,0,.8) 25%, #000 38%, #000 70%, rgba(0,0,0,.38) 80%, transparent 92%, transparent 100%)',
-            maskImage:
-              'linear-gradient(90deg, transparent 0%, rgba(0,0,0,.12) 10%, rgba(0,0,0,.8) 25%, #000 38%, #000 70%, rgba(0,0,0,.38) 80%, transparent 92%, transparent 100%)',
-          }}
+          className="landing-portal-image h-full w-full select-none object-contain opacity-[0.98] mix-blend-screen max-sm:opacity-100"
           draggable={false}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#050214_0%,rgba(5,2,20,0.64)_14%,rgba(5,2,20,0.16)_34%,transparent_50%,transparent_62%,rgba(5,2,20,0.24)_78%,#050214_94%,#050214_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,#050214_0%,rgba(5,2,20,0.28)_9%,transparent_18%,transparent_78%,#050214_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_55%_52%,transparent_0%,transparent_44%,rgba(5,2,20,0.28)_66%,#050214_95%,#050214_100%)]" />
+        <div className="landing-portal-overlay-x absolute inset-0" />
+        <div className="landing-portal-overlay-y absolute inset-0" />
+        <div className="landing-portal-overlay-radial absolute inset-0" />
       </motion.div>
     </motion.div>
   )
@@ -227,18 +215,20 @@ export function LandingPage() {
           <motion.h1
             variants={fadeUp}
             transition={softTransition}
-            className="font-display text-[2.65rem] font-bold uppercase leading-[1.02] text-white drop-shadow-[0_0_24px_rgba(255,255,255,0.12)] max-[380px]:text-[2.35rem] sm:text-[3.3rem] md:text-[4rem] lg:text-[4.7rem] xl:text-[5.05rem] 2xl:text-[5.65rem] min-[1800px]:text-[6.45rem] min-[2200px]:text-[7.15rem]"
+            className="font-display text-[2.65rem] font-bold uppercase leading-[1.02] text-white drop-shadow-[0_0_24px_rgba(255,255,255,0.12)] max-sm:flex max-sm:flex-col max-sm:items-center max-sm:gap-[0.08em] max-sm:leading-none max-[380px]:text-[2.35rem] sm:text-[3.3rem] md:text-[4rem] lg:text-[4.7rem] xl:text-[5.05rem] 2xl:text-[5.65rem] min-[1800px]:text-[6.45rem] min-[2200px]:text-[7.15rem]"
           >
-            <span className="block">Descubra.</span>
-            <span className="block">Escolha.</span>
-            <GradientText>Construa.</GradientText>
+            <span className="block max-sm:whitespace-nowrap max-sm:text-center">Descubra.</span>
+            <span className="block max-sm:whitespace-nowrap max-sm:text-center">Escolha.</span>
+            <span className="block max-sm:whitespace-nowrap max-sm:text-center">
+              <GradientText>Construa.</GradientText>
+            </span>
           </motion.h1>
-          <motion.p variants={fadeUp} transition={softTransition} className="mx-auto mt-6 max-w-[575px] text-base leading-7 text-white/86 sm:text-lg sm:leading-8 md:max-w-[620px] lg:mx-0 lg:text-[1.18rem] lg:leading-9 xl:max-w-[575px] 2xl:max-w-[660px] 2xl:text-[1.3rem] 2xl:leading-10">
+          <motion.p variants={fadeUp} transition={softTransition} className="mx-auto mt-6 max-w-[575px] text-base leading-7 text-white/86 max-sm:max-w-[min(350px,calc(100vw-40px))] max-sm:px-1 max-sm:leading-[1.62] max-sm:[text-wrap:balance] sm:text-lg sm:leading-8 md:max-w-[620px] lg:mx-0 lg:text-[1.18rem] lg:leading-9 xl:max-w-[575px] 2xl:max-w-[660px] 2xl:text-[1.3rem] 2xl:leading-10">
             Descubra a área que mais combina com você e receba um plano completo de evolução:{' '}
             <span className="text-nexa-violet">estudos, habilidades, recursos, metas</span> e{' '}
             <span className="text-nexa-cyan">dashboards</span> para acompanhar cada passo da sua jornada.
           </motion.p>
-          <motion.div variants={fadeUp} transition={softTransition} className="mx-auto mt-9 max-w-[448px] lg:mx-0 xl:max-w-[448px] 2xl:max-w-[510px] max-sm:max-w-full">
+          <motion.div variants={fadeUp} transition={softTransition} className="mx-auto mt-9 max-w-[448px] max-sm:w-[min(320px,calc(100vw-56px))] lg:mx-0 xl:max-w-[448px] 2xl:max-w-[510px]">
             <LandingButton to="/cadastro" className="h-[72px] w-full text-base uppercase tracking-[0.16em] sm:h-[76px] sm:text-lg lg:h-[84px] lg:text-xl xl:h-[84px] 2xl:h-[92px] 2xl:text-[1.35rem]">
               Começar agora
             </LandingButton>
