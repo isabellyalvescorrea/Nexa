@@ -243,7 +243,7 @@ export function LandingPage() {
             </span>
             <span className="block whitespace-nowrap">para acompanhar cada passo da sua jornada.</span>
           </motion.p>
-          <motion.div variants={fadeUp} transition={softTransition} className="mx-auto mt-9 max-w-[448px] max-sm:w-full max-sm:max-w-[300px] lg:mx-0 xl:max-w-[448px] 2xl:max-w-[510px]">
+          <motion.div variants={fadeUp} transition={softTransition} className="mx-auto mt-9 w-full max-w-[448px] max-sm:max-w-[300px] lg:mx-0 xl:max-w-[448px] 2xl:max-w-[510px]">
             <LandingButton to="/cadastro" className="h-[72px] w-full text-base uppercase tracking-[0.16em] sm:h-[76px] sm:text-lg lg:h-[84px] lg:text-xl xl:h-[84px] 2xl:h-[92px] 2xl:text-[1.35rem]">
               Começar agora
             </LandingButton>
