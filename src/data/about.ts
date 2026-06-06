@@ -1,27 +1,23 @@
 export const aboutCards = [
   {
-    title: 'Propósito',
-    icon: 'Compass',
-    body: 'Ajudamos você a se conhecer melhor para fazer escolhas alinhadas com quem você é e com o futuro que deseja construir.',
+    title: 'Missão',
+    icon: 'Target',
+    body: 'Ajudar jovens a transformarem dúvidas sobre o futuro em decisões mais claras, oferecendo orientação, ferramentas e caminhos personalizados para sua jornada profissional.',
   },
   {
-    title: 'Direcionamento',
-    icon: 'Route',
-    body: 'Não paramos na sugestão de profissão. Oferecemos um plano completo com estudos, habilidades e próximos passos para você avançar.',
+    title: 'Visão',
+    icon: 'Telescope',
+    body: 'Ser uma plataforma de referência em orientação profissional digital, conectando autoconhecimento, tecnologia e planejamento para apoiar escolhas mais conscientes.',
   },
   {
-    title: 'Evolução',
-    icon: 'BarChart3',
-    body: 'Acompanhamos seu progresso com dashboards inteligentes, metas personalizadas e insights que mostram sua evolução contínua.',
-  },
-  {
-    title: 'Conexão',
-    icon: 'UsersRound',
-    body: 'Conectamos você a conteúdos relevantes, trilhas de estudo e oportunidades que realmente fazem sentido para o seu caminho.',
-  },
-  {
-    title: 'Clareza',
-    icon: 'Lightbulb',
-    body: 'Trazemos clareza para decisões importantes, ajudando você a transformar dúvidas em confiança e planos em realizações.',
+    title: 'Valores',
+    icon: 'ShieldCheck',
+    body: 'Valorizamos clareza, responsabilidade, evolução, acessibilidade e respeito à individualidade de cada pessoa em sua construção de futuro.',
   },
 ]
+
+export const aboutFeature = {
+  title: 'Por que a Nexa existe?',
+  icon: 'Waypoints',
+  body: 'A Nexa existe para preencher uma lacuna que muitos jovens enfrentam: a falta de direção depois de descobrir uma possível área de interesse. Diferente dos questionários tradicionais, que apenas indicam profissões e encerram a experiência, a Nexa acompanha o usuário depois da escolha, oferecendo caminhos práticos, ferramentas de evolução, estudos recomendados e uma visão mais clara dos próximos passos.',
+}

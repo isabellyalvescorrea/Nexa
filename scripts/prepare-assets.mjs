@@ -30,7 +30,26 @@ async function makeWebp(inputName, outputName, options = {}) {
     .toFile(outputPath);
 }
 
+async function makeFavicon() {
+  await sharp(path.join(sourceDir, 'favicon.png'))
+    .extract({ left: 129, top: 9, width: 49, height: 52 })
+    .resize(52, 52, {
+      fit: 'contain',
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
+    .extend({
+      top: 6,
+      right: 6,
+      bottom: 6,
+      left: 6,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
+    .png()
+    .toFile(path.join(root, 'public', 'favicon.png'));
+}
+
 await Promise.all([
+  makeFavicon(),
   makeWebp('palette-logo.jpeg', 'logo-wide.webp', {
     extract: { left: 430, top: 180, width: 690, height: 190 },
     resize: { width: 420 },

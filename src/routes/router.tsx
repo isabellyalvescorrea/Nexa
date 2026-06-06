@@ -1,16 +1,14 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { DashboardLayout } from '@/layouts/DashboardLayout'
-import { AboutPage } from '@/pages/AboutPage'
 import { DashboardPage } from '@/pages/DashboardPage'
 import { LandingPage } from '@/pages/LandingPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { SignupPage } from '@/pages/SignupPage'
-import { ToolsPage } from '@/pages/ToolsPage'
 
 export const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
-  { path: '/sobre', element: <AboutPage /> },
-  { path: '/ferramentas', element: <ToolsPage /> },
+  { path: '/sobre', element: <Navigate to="/#sobre" replace /> },
+  { path: '/ferramentas', element: <Navigate to="/#ferramentas" replace /> },
   { path: '/login', element: <LoginPage /> },
   { path: '/cadastro', element: <SignupPage /> },
   {

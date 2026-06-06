@@ -17,6 +17,7 @@ export function LoginPage() {
 
   return (
     <AuthLayout
+      variant="login"
       eyebrow="Login"
       switchLabel="Ainda não tem uma conta?"
       switchTo="/cadastro"
@@ -26,15 +27,15 @@ export function LoginPage() {
       description="Faça login e continue sua jornada rumo à carreira que combina com você."
       visual={authPortal}
     >
-      <form onSubmit={handleSubmit} className="mx-auto max-w-[560px]">
-        <div className="mb-12 text-center">
+      <form onSubmit={handleSubmit} className="auth-form auth-form--login mx-auto max-w-[560px]">
+        <div className="auth-form-header mb-12 text-center">
           <h2 className="font-display text-[2.4rem] font-bold leading-tight text-white max-sm:text-[1.9rem]">
             <GradientText>Bem-vindo</GradientText> de volta!
           </h2>
           <p className="mt-3 text-white/75">Faça login para acessar sua jornada personalizada.</p>
         </div>
 
-        <div className="space-y-8">
+        <div className="auth-fields auth-fields--login space-y-8">
           <FormField label="E-mail" placeholder="seu@email.com" icon={Mail} type="email" />
           <div>
             <div className="mb-2 flex items-center justify-between gap-4">
@@ -47,24 +48,24 @@ export function LoginPage() {
           </div>
         </div>
 
-        <div className="mt-11">
-          <NeonButton type="submit" block className="min-h-[64px] text-base">
+        <div className="auth-primary-action mt-11">
+          <NeonButton type="submit" block className="auth-submit-button min-h-[64px] text-base">
             Entrar
           </NeonButton>
         </div>
 
-        <div className="my-7 grid grid-cols-[1fr_auto_1fr] items-center gap-5 text-sm text-white/60">
+        <div className="auth-divider my-7 grid grid-cols-[1fr_auto_1fr] items-center gap-5 text-sm text-white/60">
           <span className="h-px bg-white/10" />
           ou
           <span className="h-px bg-white/10" />
         </div>
 
-        <NeonButton variant="light" block className="min-h-[58px] gap-3 text-base">
+        <NeonButton variant="light" block className="auth-google-button min-h-[58px] gap-3 text-base">
           <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full text-xl font-bold text-[#4285f4]">G</span>
           Continuar com Google
         </NeonButton>
 
-        <p className="mt-7 text-center text-sm text-white/55">Seus dados estão seguros conosco.</p>
+        <p className="auth-security mt-7 text-center text-sm text-white/55">Seus dados estão seguros conosco.</p>
         {submitted && <p className="mt-4 text-center text-sm font-medium text-nexa-cyan">Login demo pronto para integração backend.</p>}
       </form>
     </AuthLayout>

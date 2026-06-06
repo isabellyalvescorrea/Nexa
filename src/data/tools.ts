@@ -49,14 +49,16 @@ export const toolCards = [
   },
   {
     number: '09',
-    title: 'Comunidade',
-    icon: 'UsersRound',
-    description: 'Conecte-se com outras pessoas, compartilhe experiências e cresça junto.',
+    title: 'Mentor IA',
+    icon: 'Bot',
+    description:
+      'Tire dúvidas sobre profissões, estudos e próximos passos com um assistente inteligente preparado para guiar sua jornada.',
   },
   {
     number: '10',
-    title: 'Conquistas',
-    icon: 'Star',
-    description: 'Ganhe badges, acompanhe suas conquistas e celebre cada passo da sua jornada.',
+    title: 'Mapa de habilidades',
+    icon: 'Radar',
+    description:
+      'Visualize as habilidades que você já possui, descubra quais precisa desenvolver e acompanhe sua evolução por área.',
   },
 ]

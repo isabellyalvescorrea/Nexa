@@ -1,8 +1,10 @@
+export type MarketingSectionId = 'inicio' | 'sobre' | 'ferramentas'
+
 export const marketingLinks = [
-  { label: 'Início', href: '/' },
-  { label: 'Sobre nós', href: '/sobre' },
-  { label: 'Ferramentas', href: '/ferramentas' },
-]
+  { id: 'inicio', label: 'Início', href: '/#inicio' },
+  { id: 'sobre', label: 'Sobre nós', href: '/#sobre' },
+  { id: 'ferramentas', label: 'Ferramentas', href: '/#ferramentas' },
+] satisfies Array<{ id: MarketingSectionId; label: string; href: string }>
 
 export const dashboardNav = [
   'Visão geral',

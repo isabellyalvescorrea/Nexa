@@ -1,13 +1,16 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
-import { useEffect, useState, type ReactNode } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import landingHero from '@/assets/generated/landing-hero.webp'
 import logoNexa from '@/assets/logo.png'
 import { fadeUp, softTransition, staggerContainer } from '@/animations/motion'
 import { GradientText } from '@/components/GradientText'
 import { ParticleField } from '@/components/ParticleField'
-import { marketingLinks } from '@/data/navigation'
+import { SiteFooter } from '@/components/SiteFooter'
+import { marketingLinks, type MarketingSectionId } from '@/data/navigation'
+import { AboutSection } from '@/pages/AboutPage'
+import { ToolsSection } from '@/pages/ToolsPage'
 import { cn } from '@/utils/cn'
 
 if (typeof document !== 'undefined' && !document.querySelector(`link[href="${landingHero}"]`)) {
@@ -55,10 +58,16 @@ function LandingButton({
   )
 }
 
-function LandingHeader() {
+function LandingHeader({
+  activeSection,
+  onNavigate,
+}: {
+  activeSection: MarketingSectionId
+  onNavigate: (section: MarketingSectionId) => void
+}) {
   const [open, setOpen] = useState(false)
 
-  const navClass = ({ isActive }: { isActive: boolean }) =>
+  const navClass = (isActive: boolean) =>
     cn(
       'group relative flex h-12 items-center px-3 text-base font-medium text-white/90 [transition:all_0.3s_ease] after:absolute after:bottom-0 after:left-3 after:right-3 after:h-px after:origin-center after:scale-x-0 after:bg-nexa-gradient after:opacity-0 after:shadow-[0_0_18px_rgba(181,73,240,0.88)] after:[transition:all_0.3s_ease] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.62)] hover:after:scale-x-100 hover:after:opacity-100',
       isActive &&
@@ -81,15 +90,16 @@ function LandingHeader() {
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-14 lg:flex">
           {marketingLinks.map((link) => (
-            <NavLink
-              key={link.href}
-              to={link.href}
-              end={link.href === '/'}
-              className={navClass}
+            <button
+              key={link.id}
+              type="button"
+              aria-current={activeSection === link.id ? 'location' : undefined}
+              onClick={() => onNavigate(link.id)}
+              className={navClass(activeSection === link.id)}
             >
               {link.label}
               <span className="ml-4 h-1 w-1 rounded-full bg-nexa-pink shadow-[0_0_12px_rgba(246,97,253,0.9)]" />
-            </NavLink>
+            </button>
           ))}
         </nav>
 
@@ -123,21 +133,22 @@ function LandingHeader() {
           >
             <div className="mx-auto flex max-w-md flex-col gap-2">
               {marketingLinks.map((link) => (
-                <NavLink
-                  key={link.href}
-                  to={link.href}
-                  end={link.href === '/'}
-                  onClick={() => setOpen(false)}
-                  className={({ isActive }) =>
-                    cn(
-                      'flex items-center rounded-lg px-4 py-3 text-sm font-medium text-white/78 [transition:all_0.3s_ease] hover:bg-white/[0.05] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.56)]',
-                      isActive &&
-                        'bg-white/[0.06] text-[#B549F0] drop-shadow-[0_0_10px_rgba(181,73,240,0.5)] shadow-[inset_0_0_0_1px_rgba(181,73,240,0.3)]',
-                    )
-                  }
+                <button
+                  key={link.id}
+                  type="button"
+                  aria-current={activeSection === link.id ? 'location' : undefined}
+                  onClick={() => {
+                    setOpen(false)
+                    requestAnimationFrame(() => onNavigate(link.id))
+                  }}
+                  className={cn(
+                    'flex items-center rounded-lg px-4 py-3 text-left text-sm font-medium text-white/78 [transition:all_0.3s_ease] hover:bg-white/[0.05] hover:text-[#B549F0] hover:drop-shadow-[0_0_10px_rgba(181,73,240,0.56)]',
+                    activeSection === link.id &&
+                      'bg-white/[0.06] text-[#B549F0] drop-shadow-[0_0_10px_rgba(181,73,240,0.5)] shadow-[inset_0_0_0_1px_rgba(181,73,240,0.3)]',
+                  )}
                 >
                   {link.label}
-                </NavLink>
+                </button>
               ))}
               <div className="grid grid-cols-2 gap-3 pt-3 max-[380px]:grid-cols-1">
                 <LandingButton to="/login" subtle block>
@@ -186,26 +197,124 @@ function PortalVisual() {
 }
 
 export function LandingPage() {
+  const initialSection = marketingLinks.some((link) => `#${link.id}` === window.location.hash)
+    ? (window.location.hash.slice(1) as MarketingSectionId)
+    : 'inicio'
+  const [activeSection, setActiveSection] = useState<MarketingSectionId>(initialSection)
+  const programmaticTarget = useRef<MarketingSectionId | null>(null)
+
+  const scrollToSection = useCallback((section: MarketingSectionId, historyMode: 'push' | 'replace' = 'push') => {
+    const target = document.getElementById(section)
+    if (!target) {
+      return
+    }
+
+    const hash = `#${section}`
+    const nextUrl = `${window.location.pathname}${window.location.search}${hash}`
+    if (window.location.hash !== hash) {
+      window.history[historyMode === 'push' ? 'pushState' : 'replaceState'](null, '', nextUrl)
+    }
+
+    programmaticTarget.current = section
+    setActiveSection(section)
+    window.scrollTo({
+      top: target.getBoundingClientRect().top + window.scrollY,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    })
+  }, [])
+
   useEffect(() => {
     const previousBodyBackground = document.body.style.background
     const previousHtmlBackground = document.documentElement.style.background
+    document.body.classList.add('nexa-mobile-clean-scrollbar')
+    document.documentElement.classList.add('nexa-mobile-clean-scrollbar')
     document.body.style.background = landingBackground
     document.documentElement.style.background = landingBackground
 
     return () => {
+      document.body.classList.remove('nexa-mobile-clean-scrollbar')
+      document.documentElement.classList.remove('nexa-mobile-clean-scrollbar')
       document.body.style.background = previousBodyBackground
       document.documentElement.style.background = previousHtmlBackground
     }
   }, [])
 
-  return (
-    <main className="relative min-h-[100svh] overflow-x-hidden bg-[#050214] text-white lg:h-[100svh] lg:overflow-hidden">
-      <LandingHeader />
-      <ParticleField density="high" motion="cinematic" className="z-20 opacity-95 mix-blend-screen" />
-      <div className="absolute inset-0 z-0 nexa-grid-bg opacity-[0.055]" />
-      <div className="absolute left-[14%] top-[26%] z-0 h-64 w-64 rounded-full bg-nexa-violet/10 blur-3xl" />
+  useEffect(() => {
+    const sectionElements = marketingLinks
+      .map((link) => document.getElementById(link.id))
+      .filter((section): section is HTMLElement => Boolean(section))
 
-      <section className="nexa-shell relative z-30 grid min-h-[100svh] grid-cols-1 items-center bg-[#050214]/0 pb-12 pt-24 max-lg:content-start lg:h-[100svh] lg:grid-cols-[0.62fr_1fr] lg:gap-2 lg:pb-8 lg:pt-[104px] xl:grid-cols-[0.65fr_1fr] 2xl:grid-cols-[0.68fr_1fr]">
+    const updateFromLocation = () => {
+      const hashSection = window.location.hash.slice(1) as MarketingSectionId
+      const section = marketingLinks.some((link) => link.id === hashSection) ? hashSection : 'inicio'
+      const target = document.getElementById(section)
+
+      if (!window.location.hash) {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#inicio`)
+      }
+
+      const needsScroll = target ? Math.abs(target.getBoundingClientRect().top) > 2 : false
+      programmaticTarget.current = needsScroll ? section : null
+      setActiveSection(section)
+      requestAnimationFrame(() => {
+        if (!target) {
+          return
+        }
+
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.scrollY,
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        })
+      })
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries.find((entry) => entry.isIntersecting)
+        if (!visibleEntry) {
+          return
+        }
+
+        const section = visibleEntry.target.id as MarketingSectionId
+        if (programmaticTarget.current && programmaticTarget.current !== section) {
+          return
+        }
+
+        const reachedProgrammaticTarget = programmaticTarget.current === section
+        programmaticTarget.current = null
+        setActiveSection(section)
+
+        if (!reachedProgrammaticTarget && window.location.hash !== `#${section}`) {
+          window.history.replaceState(
+            null,
+            '',
+            `${window.location.pathname}${window.location.search}#${section}`,
+          )
+        }
+      },
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0 },
+    )
+
+    sectionElements.forEach((section) => observer.observe(section))
+    window.addEventListener('hashchange', updateFromLocation)
+    window.addEventListener('popstate', updateFromLocation)
+    updateFromLocation()
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('hashchange', updateFromLocation)
+      window.removeEventListener('popstate', updateFromLocation)
+    }
+  }, [])
+
+  return (
+    <main className="relative min-h-[100svh] overflow-x-hidden bg-[#050214] text-white">
+      <LandingHeader activeSection={activeSection} onNavigate={scrollToSection} />
+      <ParticleField density="high" motion="cinematic" className="fixed z-20 h-[100svh] opacity-95 mix-blend-screen" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[100svh] nexa-grid-bg opacity-[0.055]" />
+      <div className="pointer-events-none absolute left-[14%] top-[26%] z-0 h-64 w-64 rounded-full bg-nexa-violet/10 blur-3xl" />
+
+      <section id="inicio" className="nexa-shell relative z-30 grid min-h-[100svh] scroll-mt-20 grid-cols-1 items-center bg-[#050214]/0 pb-12 pt-24 max-lg:content-start lg:h-[100svh] lg:scroll-mt-[104px] lg:grid-cols-[0.62fr_1fr] lg:gap-2 lg:pb-8 lg:pt-[104px] xl:grid-cols-[0.65fr_1fr] 2xl:grid-cols-[0.68fr_1fr]">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -251,6 +360,9 @@ export function LandingPage() {
         </motion.div>
         <PortalVisual />
       </section>
+      <AboutSection />
+      <ToolsSection />
+      <SiteFooter onNavigate={scrollToSection} />
     </main>
   )
 }

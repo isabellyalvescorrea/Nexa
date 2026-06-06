@@ -1,4 +1,4 @@
-import { BarChart3, Compass, Lightbulb, Route, Sparkles, UsersRound, type LucideIcon } from 'lucide-react'
+import { ShieldCheck, Sparkles, Target, Telescope, Waypoints, type LucideIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import aboutAtmosphere from '@/assets/generated/about-atmosphere.webp'
@@ -7,40 +7,23 @@ import { GlassCard } from '@/components/GlassCard'
 import { GradientText } from '@/components/GradientText'
 import { Header } from '@/components/Header'
 import { ParticleField } from '@/components/ParticleField'
-import { aboutCards } from '@/data/about'
+import { aboutCards, aboutFeature } from '@/data/about'
 import { neonCardTitleStyle } from '@/utils/neonCardTitleStyle'
 
 const iconMap: Record<string, LucideIcon> = {
-  Compass,
-  Route,
-  BarChart3,
-  UsersRound,
-  Lightbulb,
+  Target,
+  Telescope,
+  ShieldCheck,
+  Waypoints,
 }
 
 const pageBackground = '#050214'
 
-export function AboutPage() {
-  useEffect(() => {
-    const previousBodyBackground = document.body.style.background
-    const previousHtmlBackground = document.documentElement.style.background
-    document.body.classList.add('nexa-mobile-clean-scrollbar')
-    document.documentElement.classList.add('nexa-mobile-clean-scrollbar')
-    document.body.style.background = pageBackground
-    document.documentElement.style.background = pageBackground
-
-    return () => {
-      document.body.classList.remove('nexa-mobile-clean-scrollbar')
-      document.documentElement.classList.remove('nexa-mobile-clean-scrollbar')
-      document.body.style.background = previousBodyBackground
-      document.documentElement.style.background = previousHtmlBackground
-    }
-  }, [])
+export function AboutSection() {
+  const FeatureIcon = iconMap[aboutFeature.icon]
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#050214] text-white">
-      <Header />
-      <ParticleField density="high" motion="cinematic" className="z-10 opacity-95 mix-blend-screen" />
+    <section id="sobre" className="relative min-h-screen scroll-mt-20 overflow-hidden bg-[#050214] text-white lg:scroll-mt-[104px]">
       <div className="absolute inset-0 overflow-hidden">
         <img
           src={aboutAtmosphere}
@@ -51,8 +34,8 @@ export function AboutPage() {
         <div className="absolute inset-0 bg-[#050214]/78" />
       </div>
 
-      <section className="nexa-shell relative z-20 bg-[#050214]/0 pb-14 pt-28 sm:pt-32 lg:pb-16 lg:pt-[145px] 2xl:pt-40">
-        <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="mx-auto max-w-[910px] text-center 2xl:max-w-[1040px]">
+      <div className="nexa-shell relative z-30 bg-[#050214]/0 pb-14 pt-28 sm:pt-32 lg:pb-16 lg:pt-[145px] 2xl:pt-40">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={staggerContainer} className="mx-auto max-w-[910px] text-center 2xl:max-w-[1040px]">
           <motion.p variants={fadeUp} transition={softTransition} className="mb-4 text-xs font-semibold uppercase text-nexa-violet sm:mb-5 sm:text-sm">
             • Sobre nós •
           </motion.p>
@@ -88,14 +71,20 @@ export function AboutPage() {
 
         <motion.div
           initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.08 }}
           variants={staggerContainer}
-          className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-12 xl:grid-cols-3 min-[1360px]:grid-cols-5 2xl:gap-6"
+          className="mt-10 grid auto-rows-fr grid-cols-1 gap-5 md:grid-cols-3 lg:mt-12 2xl:gap-6"
         >
           {aboutCards.map((card) => {
             const Icon = iconMap[card.icon]
             return (
-              <GlassCard key={card.title} variants={fadeUp} transition={softTransition} className="group min-h-0 px-6 py-7 text-center sm:min-h-[332px] lg:min-h-[352px] lg:px-7 lg:py-8">
+              <GlassCard
+                key={card.title}
+                variants={fadeUp}
+                transition={softTransition}
+                className="group h-full min-h-0 px-6 py-7 text-center md:min-h-[410px] lg:min-h-[360px] lg:px-8 lg:py-8"
+              >
                 <div className="premium-icon-ring mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full transition duration-500 sm:mb-7 sm:h-24 sm:w-24">
                   <Icon className="h-10 w-10 text-[#F661FD] drop-shadow-[0_0_10px_rgba(246,97,253,0.42)] transition duration-500 group-hover:text-[#2DA8FF] group-hover:drop-shadow-[0_0_12px_rgba(45,168,255,0.44)]" />
                 </div>
@@ -106,12 +95,68 @@ export function AboutPage() {
                   {card.title}
                 </h2>
                 <div className="gradient-line mx-auto my-4 w-16 opacity-75" />
-                <p className="mx-auto max-w-[210px] text-sm leading-7 text-white/78">{card.body}</p>
+                <p className="mx-auto max-w-[350px] text-sm leading-7 text-white/78">{card.body}</p>
               </GlassCard>
             )
           })}
         </motion.div>
-      </section>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.16 }}
+          variants={staggerContainer}
+          className="mt-5 2xl:mt-6"
+        >
+          <GlassCard
+            variants={fadeUp}
+            transition={softTransition}
+            className="group flex min-h-0 flex-col items-center gap-6 px-6 py-8 md:flex-row md:items-center md:gap-9 md:px-9 lg:gap-12 lg:px-12 lg:py-10"
+          >
+            <div className="premium-icon-ring flex h-20 w-20 shrink-0 items-center justify-center rounded-full transition duration-500 sm:h-24 sm:w-24">
+              <FeatureIcon className="h-10 w-10 text-[#F661FD] drop-shadow-[0_0_10px_rgba(246,97,253,0.42)] transition duration-500 group-hover:text-[#2DA8FF] group-hover:drop-shadow-[0_0_12px_rgba(45,168,255,0.44)]" />
+            </div>
+            <div className="w-full text-left">
+              <h2
+                className="font-display text-lg font-semibold uppercase tracking-[0.035em] sm:text-xl"
+                style={neonCardTitleStyle}
+              >
+                {aboutFeature.title}
+              </h2>
+              <div className="gradient-line my-4 w-20 opacity-75" />
+              <p className="max-w-[1240px] text-sm leading-7 text-white/78 sm:text-[0.95rem] sm:leading-8">
+                {aboutFeature.body}
+              </p>
+            </div>
+          </GlassCard>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+export function AboutPage() {
+  useEffect(() => {
+    const previousBodyBackground = document.body.style.background
+    const previousHtmlBackground = document.documentElement.style.background
+    document.body.classList.add('nexa-mobile-clean-scrollbar')
+    document.documentElement.classList.add('nexa-mobile-clean-scrollbar')
+    document.body.style.background = pageBackground
+    document.documentElement.style.background = pageBackground
+
+    return () => {
+      document.body.classList.remove('nexa-mobile-clean-scrollbar')
+      document.documentElement.classList.remove('nexa-mobile-clean-scrollbar')
+      document.body.style.background = previousBodyBackground
+      document.documentElement.style.background = previousHtmlBackground
+    }
+  }, [])
+
+  return (
+    <main className="relative min-h-screen overflow-x-hidden bg-[#050214] text-white">
+      <Header />
+      <ParticleField density="high" motion="cinematic" className="z-10 opacity-95 mix-blend-screen" />
+      <AboutSection />
     </main>
   )
 }

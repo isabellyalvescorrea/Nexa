@@ -6,6 +6,12 @@ import logoNexa from '@/assets/logo.png'
 import { marketingLinks } from '@/data/navigation'
 import { cn } from '@/utils/cn'
 
+type ContextualAction = {
+  prompt: string
+  label: string
+  to: string
+}
+
 function HeaderButton({
   to,
   children,
@@ -36,7 +42,7 @@ function HeaderButton({
   )
 }
 
-export function Header() {
+export function Header({ contextualAction }: { contextualAction?: ContextualAction }) {
   const [open, setOpen] = useState(false)
 
   const navClass = ({ isActive }: { isActive: boolean }) =>
@@ -62,19 +68,28 @@ export function Header() {
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-14 lg:flex">
           {marketingLinks.map((link) => (
-            <NavLink key={link.href} to={link.href} end={link.href === '/'} className={navClass}>
+            <NavLink key={link.id} to={link.href} end={link.id === 'inicio'} className={navClass}>
               {link.label}
               <span className="ml-4 h-1 w-1 rounded-full bg-nexa-pink shadow-[0_0_12px_rgba(246,97,253,0.9)]" />
             </NavLink>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-7 lg:flex">
-          <HeaderButton to="/login" subtle>
-            Login
-          </HeaderButton>
-          <HeaderButton to="/painel">Painel</HeaderButton>
-        </div>
+        {contextualAction ? (
+          <div className="hidden items-center gap-5 text-sm text-white/86 lg:flex">
+            <span>{contextualAction.prompt}</span>
+            <HeaderButton to={contextualAction.to} subtle>
+              {contextualAction.label}
+            </HeaderButton>
+          </div>
+        ) : (
+          <div className="hidden items-center gap-7 lg:flex">
+            <HeaderButton to="/login" subtle>
+              Login
+            </HeaderButton>
+            <HeaderButton to="/painel">Painel</HeaderButton>
+          </div>
+        )}
 
         <button
           type="button"
@@ -98,9 +113,9 @@ export function Header() {
             <div className="mx-auto flex max-w-md flex-col gap-2">
               {marketingLinks.map((link) => (
                 <NavLink
-                  key={link.href}
+                  key={link.id}
                   to={link.href}
-                  end={link.href === '/'}
+                  end={link.id === 'inicio'}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     cn(
@@ -113,14 +128,22 @@ export function Header() {
                   {link.label}
                 </NavLink>
               ))}
-              <div className="grid grid-cols-2 gap-3 pt-3">
-                <HeaderButton to="/login" subtle block>
-                  Login
-                </HeaderButton>
-                <HeaderButton to="/painel" block>
-                  Painel
-                </HeaderButton>
-              </div>
+              {contextualAction ? (
+                <div className="pt-3">
+                  <HeaderButton to={contextualAction.to} subtle block>
+                    {contextualAction.label}
+                  </HeaderButton>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-3 pt-3">
+                  <HeaderButton to="/login" subtle block>
+                    Login
+                  </HeaderButton>
+                  <HeaderButton to="/painel" block>
+                    Painel
+                  </HeaderButton>
+                </div>
+              )}
             </div>
           </motion.div>
         )}
