@@ -16,6 +16,7 @@ export const dashboardNav = [
   'Recursos recomendados',
   'Desafios e missões',
   'Explorar profissões',
-  'Comunidade',
-  'Conquistas',
+  'Mentor IA',
+  'Mapa de habilidades',
+  'Configurações',
 ]
