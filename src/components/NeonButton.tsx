@@ -23,6 +23,7 @@ export function NeonButton({
   const classes = cn(
     'group relative inline-flex min-h-12 items-center justify-center overflow-hidden rounded-lg px-7 py-3 text-sm font-semibold transition duration-300',
     'focus:outline-none focus-visible:ring-2 focus-visible:ring-nexa-pink/80 focus-visible:ring-offset-2 focus-visible:ring-offset-nexa-black',
+    'disabled:cursor-not-allowed disabled:opacity-60',
     block && 'w-full',
     variant === 'primary' &&
       'bg-nexa-gradient text-white shadow-neon before:absolute before:inset-0 before:bg-white/15 before:opacity-0 before:transition before:duration-300 hover:before:opacity-100',

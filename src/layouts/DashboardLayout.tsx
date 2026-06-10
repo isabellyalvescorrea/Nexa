@@ -1,12 +1,37 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { useEffect, useState, type PropsWithChildren } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logoNexa from '@/assets/logo.png'
 import { dashboardNav } from '@/data/navigation'
+import { useAuth } from '@/hooks/useAuth'
+import { useRequireAuth } from '@/hooks/useRequireAuth'
 import { cn } from '@/utils/cn'
 
+const protectedDashboardItems = new Set([
+  'Teste de perfil',
+  'Trilhas de estudo',
+  'Plano de ação',
+  'Mapa de habilidades',
+  'Configurações',
+])
+
 function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+  const navigate = useNavigate()
+  const requireAuth = useRequireAuth()
+  const { signOut } = useAuth()
+
+  const handleNavigation = (item: string) => {
+    onNavigate?.()
+    if (protectedDashboardItems.has(item)) requireAuth()
+  }
+
+  const handleSignOut = async () => {
+    onNavigate?.()
+    await signOut()
+    navigate('/', { replace: true })
+  }
+
   return (
     <aside className="glass-panel flex h-full flex-col rounded-nexa border-white/10 px-3 py-5" style={{ backgroundColor: '#050214' }}>
       <Link to="/" className="mb-4 flex px-5" onClick={onNavigate}>
@@ -22,7 +47,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           <button
             key={item}
             type="button"
-            onClick={onNavigate}
+            onClick={() => handleNavigation(item)}
             className={cn(
               'rounded-md px-6 py-2.5 text-left text-sm font-medium text-white/74 transition hover:bg-white/[0.055] hover:text-white hover:shadow-[inset_0_0_0_1px_rgba(174,60,255,0.22)]',
               index === 0 && 'bg-[linear-gradient(100deg,rgba(174,60,255,0.78),rgba(95,59,255,0.42))] text-white shadow-neon',
@@ -33,7 +58,11 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         ))}
       </nav>
       <div className="mt-2 pt-1">
-        <button type="button" className="w-full rounded-md px-6 py-2.5 text-left text-sm font-semibold text-[#ff7bc7] transition hover:bg-[#ff3aa0]/10">
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="w-full rounded-md px-6 py-2.5 text-left text-sm font-semibold text-[#ff7bc7] transition hover:bg-[#ff3aa0]/10"
+        >
           Sair
         </button>
       </div>
@@ -43,6 +72,9 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
 export function DashboardLayout({ children }: PropsWithChildren) {
   const [open, setOpen] = useState(false)
+  const { user } = useAuth()
+  const displayName = String(user?.user_metadata?.full_name || user?.email || '').trim()
+  const avatarInitial = displayName ? displayName.charAt(0).toLocaleUpperCase('pt-BR') : 'M'
 
   useEffect(() => {
     const root = document.documentElement
@@ -104,7 +136,9 @@ export function DashboardLayout({ children }: PropsWithChildren) {
             </h1>
             <div className="flex items-center self-start">
               <button type="button" className="flex items-center gap-4 text-white">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-nexa-gradient-hot font-bold shadow-neon">M</span>
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-nexa-gradient-hot font-bold shadow-neon">
+                  {avatarInitial}
+                </span>
                 <ChevronDown className="h-4 w-4 text-white/70" />
               </button>
             </div>

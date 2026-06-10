@@ -5,6 +5,7 @@ import dashboardAtmosphere from '@/assets/generated/dashboard-atmosphere.webp'
 import { fadeUp, softTransition, staggerContainer } from '@/animations/motion'
 import { NeonButton } from '@/components/NeonButton'
 import { actionTasks, continueRows, journeyStats, progressPoints, studyBars } from '@/data/dashboard'
+import { useRequireAuth } from '@/hooks/useRequireAuth'
 
 function Panel({ children, className = '' }: { children: ReactNode; className?: string }) {
   return <section className={`glass-panel rounded-nexa p-7 ${className}`}>{children}</section>
@@ -113,6 +114,8 @@ function StudyBars() {
 }
 
 export function DashboardPage() {
+  const requireAuth = useRequireAuth()
+
   return (
     <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="grid grid-cols-[minmax(0,1fr)_452px] gap-6 max-xl:grid-cols-1">
       <div className="space-y-6">
@@ -176,7 +179,7 @@ export function DashboardPage() {
                       <span className="text-sm text-white/68">{row.caption}</span>
                     </div>
                   </div>
-                  <NeonButton variant="ghost" className="min-w-[122px]">
+                  <NeonButton variant="ghost" className="min-w-[122px]" onClick={() => requireAuth()}>
                     {row.action}
                   </NeonButton>
                 </motion.div>
@@ -198,7 +201,7 @@ export function DashboardPage() {
               </div>
               <span className="text-white/72">60%</span>
             </div>
-            <NeonButton block className="mt-7 min-h-[58px]">
+            <NeonButton block className="mt-7 min-h-[58px]" onClick={() => requireAuth()}>
               Continuar estudando
             </NeonButton>
           </Panel>
