@@ -1,0 +1,5 @@
+export { ProfileTestPage, CompatibleAreasPage } from './ProfileAreasPages'
+export { StudyTrailsPage, ActionPlanPage } from './LearningPlanPages'
+export { RecommendedResourcesPage, MissionsPage } from './ResourcesMissionsPages'
+export { ProfessionsPage, MentorPage } from './ProfessionsMentorPages'
+export { SkillMapPage, SettingsPage, LayoutsPage } from './SkillSettingsPages'

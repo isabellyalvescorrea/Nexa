@@ -2,6 +2,19 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { GuestOnlyRoute } from '@/components/GuestOnlyRoute'
 import { DashboardLayout } from '@/layouts/DashboardLayout'
 import { DashboardPage } from '@/pages/DashboardPage'
+import {
+  ActionPlanPage,
+  CompatibleAreasPage,
+  LayoutsPage,
+  MentorPage,
+  MissionsPage,
+  ProfessionsPage,
+  ProfileTestPage,
+  RecommendedResourcesPage,
+  SettingsPage,
+  SkillMapPage,
+  StudyTrailsPage,
+} from '@/pages/dashboard'
 import { LandingPage } from '@/pages/LandingPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { SignupPage } from '@/pages/SignupPage'
@@ -28,11 +41,21 @@ export const router = createBrowserRouter([
   },
   {
     path: '/painel',
-    element: (
-      <DashboardLayout>
-        <DashboardPage />
-      </DashboardLayout>
-    ),
+    element: <DashboardLayout />,
+    children: [
+      { index: true, element: <DashboardPage /> },
+      { path: 'teste-perfil', element: <ProfileTestPage /> },
+      { path: 'areas-compativeis', element: <CompatibleAreasPage /> },
+      { path: 'trilhas-de-estudo', element: <StudyTrailsPage /> },
+      { path: 'plano-de-acao', element: <ActionPlanPage /> },
+      { path: 'recursos-recomendados', element: <RecommendedResourcesPage /> },
+      { path: 'desafios-e-missoes', element: <MissionsPage /> },
+      { path: 'explorar-profissoes', element: <ProfessionsPage /> },
+      { path: 'mentor-ia', element: <MentorPage /> },
+      { path: 'mapa-de-habilidades', element: <SkillMapPage /> },
+      { path: 'configuracoes', element: <SettingsPage /> },
+      { path: 'configuracoes/layouts', element: <LayoutsPage /> },
+    ],
   },
   { path: '*', element: <LandingPage /> },
 ])

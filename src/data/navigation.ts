@@ -7,16 +7,15 @@ export const marketingLinks = [
 ] satisfies Array<{ id: MarketingSectionId; label: string; href: string }>
 
 export const dashboardNav = [
-  'Visão geral',
-  'Teste de perfil',
-  'Áreas compatíveis',
-  'Trilhas de estudo',
-  'Plano de ação',
-  'Dashboard',
-  'Recursos recomendados',
-  'Desafios e missões',
-  'Explorar profissões',
-  'Mentor IA',
-  'Mapa de habilidades',
-  'Configurações',
-]
+  { label: 'Visão geral', href: '/painel' },
+  { label: 'Teste de perfil', href: '/painel/teste-perfil' },
+  { label: 'Áreas compatíveis', href: '/painel/areas-compativeis' },
+  { label: 'Trilhas de estudo', href: '/painel/trilhas-de-estudo' },
+  { label: 'Plano de ação', href: '/painel/plano-de-acao' },
+  { label: 'Recursos recomendados', href: '/painel/recursos-recomendados' },
+  { label: 'Desafios e missões', href: '/painel/desafios-e-missoes' },
+  { label: 'Explorar profissões', href: '/painel/explorar-profissoes' },
+  { label: 'Mentor IA', href: '/painel/mentor-ia' },
+  { label: 'Mapa de habilidades', href: '/painel/mapa-de-habilidades' },
+  { label: 'Configurações', href: '/painel/configuracoes' },
+] as const

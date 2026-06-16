@@ -194,12 +194,12 @@ export function DashboardPage() {
           <Panel>
             <p className="text-xl font-semibold text-nexa-violet">Próximo passo</p>
             <h2 className="mt-3 text-xl font-bold text-white">Continuar sua trilha de estudo</h2>
-            <p className="mt-6 text-white/72">Fundamentos de Marketing Digital</p>
-            <div className="mt-5 flex items-center gap-4">
-              <div className="h-2.5 flex-1 rounded-full bg-white/8">
-                <div className="h-full w-[60%] rounded-full bg-nexa-gradient shadow-neon" />
+              <p className="mt-6 text-white/72">Tecnologia — Primeiros passos</p>
+              <div className="mt-5 flex items-center gap-4">
+                <div className="h-2.5 flex-1 rounded-full bg-white/8">
+                <div className="h-full w-[32%] rounded-full bg-nexa-gradient shadow-neon" />
               </div>
-              <span className="text-white/72">60%</span>
+              <span className="text-white/72">32%</span>
             </div>
             <NeonButton block className="mt-7 min-h-[58px]" onClick={() => requireAuth()}>
               Continuar estudando

@@ -1,16 +1,16 @@
 export const journeyStats = [
   { label: 'Áreas compatíveis', value: '3', caption: 'descobertas' },
-  { label: 'Trilhas em andamento', value: '2', caption: 'ativas' },
-  { label: 'Horas de estudo', value: '24h', caption: 'neste mês' },
-  { label: 'Conquistas', value: '8', caption: 'alcançadas' },
+  { label: 'Módulos', value: '5', caption: 'concluídos' },
+  { label: 'Estudo', value: '4h', caption: '22m esta semana' },
+  { label: 'Sequência', value: '6', caption: 'dias seguidos' },
 ]
 
 export const actionTasks = [
-  { label: 'Definir objetivo profissional', done: true },
+  { label: 'Definir objetivo em tecnologia', done: true },
   { label: 'Concluir teste de perfil', done: true },
-  { label: 'Explorar áreas compatíveis', done: true },
-  { label: 'Iniciar trilha de estudo', done: false },
-  { label: 'Realizar 1 desafio prático', done: false },
+  { label: 'Explorar UX/UI, Front-end e Dados', done: true },
+  { label: 'Iniciar fundamentos de tecnologia', done: false },
+  { label: 'Realizar desafio prático inicial', done: false },
   { label: 'Avaliar progresso', done: false },
 ]
 
@@ -33,15 +33,15 @@ export const progressPoints = [
 
 export const continueRows = [
   {
-    title: 'Fundamentos de Marketing Digital',
-    caption: '60% concluído',
-    progress: 60,
+    title: 'Tecnologia — Primeiros passos',
+    caption: '32% concluído',
+    progress: 32,
     action: 'Retomar',
   },
   {
-    title: 'Análise de Perfil Profissional',
-    caption: 'Conclua para desbloquear novas recomendações',
-    progress: 22,
+    title: 'Fundamentos de UX/UI',
+    caption: 'Próximo módulo recomendado',
+    progress: 12,
     action: 'Continuar',
   },
 ]
