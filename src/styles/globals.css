@@ -381,6 +381,20 @@ a {
     backdrop-filter: blur(12px);
   }
 
+  .dashboard-profile-sheet-overlay {
+    pointer-events: auto;
+    background: transparent !important;
+  }
+
+  .dashboard-profile-sheet {
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
+  .dashboard-profile-sheet::-webkit-scrollbar {
+    width: 6px;
+  }
+
   .dashboard-profile-input {
     border-color: rgba(255, 255, 255, 0.1);
     background: rgba(255, 255, 255, 0.04);

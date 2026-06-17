@@ -27,6 +27,7 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom'
+import { createPortal } from 'react-dom'
 import logoNexa from '@/assets/logo.png'
 import logoNexaLight from '@/assets/nexa-logo-light-normalized.png'
 import { PanelPreferencesProvider } from '@/components/dashboard/PanelPreferencesProvider'
@@ -91,6 +92,29 @@ function getInitials(name: string) {
   if (parts.length === 1) return parts[0].slice(0, 1).toLocaleUpperCase('pt-BR')
 
   return `${parts[0].slice(0, 1)}${parts[1].slice(0, 1)}`.toLocaleUpperCase('pt-BR')
+}
+
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.matchMedia(query).matches
+  })
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const mediaQuery = window.matchMedia(query)
+    const handleChange = () => setMatches(mediaQuery.matches)
+
+    handleChange()
+    mediaQuery.addEventListener('change', handleChange)
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange)
+    }
+  }, [query])
+
+  return matches
 }
 
 function Sidebar({
@@ -378,17 +402,21 @@ function ProfileDropdown({
   onRequestLogout: () => void
 }) {
   const menuRef = useRef<HTMLDivElement | null>(null)
+  const sheetRef = useRef<HTMLDivElement | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [editingName, setEditingName] = useState(false)
   const [draftName, setDraftName] = useState(name)
   const [savingName, setSavingName] = useState(false)
   const [feedback, setFeedback] = useState<PanelFeedback | null>(null)
+  const isMobileProfileMenu = useMediaQuery('(max-width: 1023px)')
+  const { panelTheme, panelVisualTheme, panelLayout, highContrast, fontSize } = usePanelPreferences()
 
   useEffect(() => {
     if (!open) return
 
     const handlePointerDown = (event: PointerEvent) => {
-      if (!menuRef.current?.contains(event.target as Node)) {
+      const target = event.target as Node
+      if (!menuRef.current?.contains(target) && !sheetRef.current?.contains(target)) {
         onOpenChange(false)
       }
     }
@@ -468,11 +496,160 @@ function ProfileDropdown({
     }
   }
 
+  const menuContent = (
+    <>
+      <div className="flex items-center gap-4 border-b border-white/10 pb-4">
+        <ProfileAvatar avatar={avatar} initials={initials} size="lg" />
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-white">{name}</p>
+          <p className="mt-1 truncate text-xs text-white/55">{email || 'Perfil Nexa'}</p>
+        </div>
+      </div>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/png,image/jpeg,image/webp"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
+      <div className="mt-3 grid gap-2">
+        <ProfileMenuButton onClick={() => fileInputRef.current?.click()}>
+          <Camera className="h-4 w-4" />
+          {avatar ? 'Trocar foto de perfil' : 'Colocar foto de perfil'}
+        </ProfileMenuButton>
+
+        {avatar && (
+          <ProfileMenuButton
+            onClick={() => {
+              onAvatarChange('')
+              setFeedback({ kind: 'success', text: 'Foto de perfil removida.' })
+            }}
+          >
+            <Trash2 className="h-4 w-4" />
+            Remover foto
+          </ProfileMenuButton>
+        )}
+
+        <ProfileMenuButton
+          onClick={() => {
+            setDraftName(name)
+            setFeedback(null)
+            setEditingName((current) => !current)
+          }}
+        >
+          <Pencil className="h-4 w-4" />
+          Trocar nome de usuÃ¡rio
+        </ProfileMenuButton>
+
+        <ProfileMenuButton
+          tone="danger"
+          onClick={() => {
+            onOpenChange(false)
+            onRequestLogout()
+          }}
+        >
+          <LogOut className="h-4 w-4" />
+          Sair
+        </ProfileMenuButton>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {editingName && (
+          <motion.form
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+            onSubmit={handleNameSubmit}
+          >
+            <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.035] p-3">
+              <label className="text-xs font-semibold text-white/72" htmlFor="profile-name">
+                Nome de usuÃ¡rio
+              </label>
+              <div className="mt-2 flex gap-2 max-sm:flex-col">
+                <input
+                  id="profile-name"
+                  value={draftName}
+                  onChange={(event) => setDraftName(event.target.value)}
+                  minLength={2}
+                  maxLength={50}
+                  className="dashboard-profile-input min-h-10 flex-1 rounded-lg border px-3 text-sm outline-none transition"
+                />
+                <button
+                  type="submit"
+                  disabled={savingName}
+                  className="rounded-lg border border-[#AE3CFF]/50 bg-[#AE3CFF]/14 px-4 text-sm font-semibold text-[#f0c7ff] transition hover:border-[#01A2ED]/60 hover:text-[#9ee3ff] disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {savingName ? 'Salvando...' : 'Salvar'}
+                </button>
+              </div>
+            </div>
+          </motion.form>
+        )}
+      </AnimatePresence>
+
+      {feedback && (
+        <p
+          role={feedback.kind === 'error' ? 'alert' : 'status'}
+          aria-live="polite"
+          className={cn(
+            'mt-3 rounded-lg border px-3 py-2 text-xs',
+            feedback.kind === 'error' && 'border-[#ff7bc7]/30 bg-[#ff3aa0]/10 text-[#ff9fd4]',
+            feedback.kind === 'success' && 'border-emerald-400/25 bg-emerald-400/10 text-emerald-200',
+            feedback.kind === 'info' && 'border-[#01A2ED]/25 bg-[#01A2ED]/10 text-[#9ee3ff]',
+          )}
+        >
+          {feedback.text}
+        </p>
+      )}
+    </>
+  )
+
+  const mobileMenu =
+    open && isMobileProfileMenu && typeof document !== 'undefined'
+      ? createPortal(
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="dashboard-shell dashboard-profile-sheet-overlay fixed inset-0 z-[95] flex items-end justify-center px-3 py-3 sm:px-4 sm:py-4"
+              data-panel-theme={panelTheme}
+              data-panel-visual-theme={panelVisualTheme}
+              data-panel-layout={panelLayout}
+              data-panel-contrast={highContrast ? 'high' : 'normal'}
+              data-panel-font-size={fontSize}
+              style={{ background: 'transparent' }}
+              onMouseDown={(event) => {
+                if (event.target === event.currentTarget) onOpenChange(false)
+              }}
+            >
+              <motion.div
+                ref={sheetRef}
+                initial={{ opacity: 0, y: 28, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 28, scale: 0.98 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Menu do perfil"
+                className="dashboard-profile-menu dashboard-profile-sheet w-[min(calc(100vw-24px),420px)] max-h-[calc(100dvh-24px)] overflow-y-auto rounded-2xl border p-4 shadow-[0_20px_70px_rgba(0,0,0,0.38)] backdrop-blur-2xl"
+              >
+                {menuContent}
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>,
+          document.body,
+        )
+      : null
+
   return (
     <div ref={menuRef} className="relative flex items-center self-start">
       <button
         type="button"
-        aria-haspopup="menu"
+        aria-haspopup={isMobileProfileMenu ? 'dialog' : 'menu'}
         aria-expanded={open}
         onClick={() => onOpenChange(!open)}
         className="dashboard-avatar-trigger flex items-center gap-4 text-white transition hover:text-[#B549F0]"
@@ -482,7 +659,7 @@ function ProfileDropdown({
       </button>
 
       <AnimatePresence>
-        {open && (
+        {open && !isMobileProfileMenu && (
           <motion.div
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -600,6 +777,7 @@ function ProfileDropdown({
           </motion.div>
         )}
       </AnimatePresence>
+      {mobileMenu}
     </div>
   )
 }
