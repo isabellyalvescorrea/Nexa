@@ -819,12 +819,14 @@ a {
 
   .auth-visual-column {
     position: relative;
+    flex: 0 0 auto;
     min-height: 640px;
   }
 
   .auth-copy {
     position: relative;
     z-index: 2;
+    flex: 0 0 auto;
     padding-top: clamp(0.75rem, 2.6vh, 2.25rem);
   }
 
@@ -832,6 +834,7 @@ a {
     position: absolute;
     inset: auto 0 0;
     isolation: isolate;
+    flex: 0 0 auto;
     height: min(52vh, 500px);
     overflow: hidden;
     pointer-events: none;
@@ -867,6 +870,7 @@ a {
   .auth-panel {
     position: relative;
     isolation: isolate;
+    flex: 0 0 auto;
     overflow: hidden;
     border: 2px solid transparent;
     border-radius: 20px;
@@ -956,33 +960,52 @@ a {
     .auth-content {
       height: calc(100svh - 104px);
       min-height: 0;
-      gap: clamp(2.25rem, 3.2vw, 4.5rem);
+      gap: clamp(1.75rem, 2.35vw, 3.5rem);
       padding-top: 1rem;
       padding-bottom: 1.5rem;
     }
 
     .auth-page--login .auth-content {
-      grid-template-columns: minmax(420px, 0.86fr) minmax(580px, 1.14fr);
+      grid-template-columns: minmax(430px, 0.92fr) minmax(600px, 1.08fr);
     }
 
     .auth-page--signup .auth-content {
-      grid-template-columns: minmax(430px, 0.72fr) minmax(650px, 1.28fr);
+      grid-template-columns: minmax(430px, 0.88fr) minmax(640px, 1.12fr);
       padding-bottom: 2.75rem;
     }
 
     .auth-visual-column {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(1rem, 1.9vh, 1.75rem);
       width: 100%;
       height: 100%;
       min-height: 0;
     }
 
+    .auth-page--signup .auth-visual-column {
+      gap: clamp(0.875rem, 1.55vh, 1.45rem);
+    }
+
     .auth-portal-frame {
-      height: min(52vh, 500px);
-      max-height: calc(100svh - 350px);
+      position: relative;
+      inset: auto;
+      width: min(720px, 100%);
+      height: clamp(270px, 38vh, 470px);
+      max-height: none;
+    }
+
+    .auth-page--login .auth-portal-frame {
+      height: clamp(300px, 41vh, 500px);
+    }
+
+    .auth-page--signup .auth-portal-frame {
+      height: clamp(260px, 35vh, 430px);
     }
   }
 
-  @media (min-width: 1024px) and (max-height: 820px) {
+  @media (min-width: 1180px) and (max-height: 820px) {
     .auth-content {
       height: calc(100svh - 104px);
       min-height: calc(100svh - 104px);
@@ -1018,8 +1041,15 @@ a {
     }
 
     .auth-portal-frame {
-      height: min(50vh, 420px);
-      max-height: calc(100svh - 350px);
+      height: clamp(240px, 38vh, 380px);
+    }
+
+    .auth-page--login .auth-portal-frame {
+      height: clamp(260px, 39vh, 390px);
+    }
+
+    .auth-page--signup .auth-portal-frame {
+      height: clamp(230px, 34vh, 340px);
     }
 
     .auth-panel--login {
@@ -1107,6 +1137,22 @@ a {
   }
 
   @media (max-width: 1179px) {
+    .auth-content {
+      display: flex;
+      flex-direction: column;
+      min-height: auto;
+      align-items: stretch;
+      padding-top: 2rem;
+    }
+
+    .auth-visual-column {
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
     .auth-copy {
       margin-right: auto;
       margin-left: auto;
@@ -1120,9 +1166,51 @@ a {
     }
 
     .auth-portal-frame {
+      position: relative;
+      inset: auto;
       left: 50%;
       width: min(720px, 100%);
+      height: clamp(280px, 45vw, 460px);
       transform: translateX(-50%);
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1179px) {
+    .auth-visual-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.75rem;
+      padding-bottom: 0;
+    }
+
+    .auth-portal-frame {
+      position: relative;
+      inset: auto;
+      left: 50%;
+      height: clamp(280px, 45vw, 460px);
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .auth-content {
+      gap: clamp(2rem, 2.6vw, 4rem);
+      max-width: min(1680px, calc(100vw - 6rem));
+    }
+
+    .auth-panel--login {
+      max-width: 720px;
+      padding: 3rem 3.75rem;
+    }
+
+    .auth-panel--signup {
+      max-width: 720px;
+      padding: 2rem 2.5rem;
+    }
+
+    .auth-form--login {
+      max-width: 600px !important;
     }
   }
 
