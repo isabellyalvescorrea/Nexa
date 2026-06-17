@@ -12,7 +12,6 @@ import {
   Sun,
   WandSparkles,
 } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
 import {
   DashPanel,
   DashboardButton,
@@ -31,13 +30,12 @@ import {
   skillCategories,
   skillsToImprove,
 } from '@/data/dashboard/internal'
-import { useAuth } from '@/hooks/useAuth'
 import { usePanelPreferences } from '@/hooks/usePanelPreferences'
-import { useRequireAuth } from '@/hooks/useRequireAuth'
+import { useDashboardActions } from '@/hooks/useDashboardActions'
 import { cn } from '@/utils/cn'
 
 export function SkillMapPage() {
-  const requireAuth = useRequireAuth()
+  const { openDemoAction } = useDashboardActions()
 
   return (
     <div>
@@ -118,7 +116,7 @@ export function SkillMapPage() {
             <DashboardButton to="/painel/areas-compativeis" variant="primary">Ver áreas relacionadas</DashboardButton>
             <DashboardButton to="/painel/plano-de-acao">Gerar plano de evolução</DashboardButton>
             <DashboardButton to="/painel/mentor-ia">Abrir Mentor IA</DashboardButton>
-            <DashboardButton icon={false} onClick={() => requireAuth(() => undefined)}><Save className="h-4 w-4" />Salvar mapa</DashboardButton>
+            <DashboardButton icon={false} onClick={() => openDemoAction('Salvar mapa')}><Save className="h-4 w-4" />Salvar mapa</DashboardButton>
           </DashPanel>
         </aside>
       </div>
@@ -136,14 +134,8 @@ export function SettingsPage() {
     fontSize,
     setFontSize,
   } = usePanelPreferences()
-  const navigate = useNavigate()
-  const { signOut } = useAuth()
+  const { requestLogout } = useDashboardActions()
   const selectedVisualTheme = panelThemeOptions.find((theme) => theme.id === panelVisualTheme) ?? panelThemeOptions[0]
-
-  const handleSignOut = async () => {
-    await signOut()
-    navigate('/', { replace: true })
-  }
 
   return (
     <div className="max-w-[1160px]">
@@ -215,7 +207,7 @@ export function SettingsPage() {
 
         <DashPanel>
           <SettingsHeading>Conta e sessão</SettingsHeading>
-          <div className="flex items-center justify-between gap-6 max-sm:flex-col max-sm:items-start"><div><h3 className="font-semibold text-white">Encerrar sessão neste dispositivo.</h3></div><DashboardButton variant="danger" icon={false} onClick={handleSignOut} className="min-w-52"><LogOut className="h-4 w-4" />Sair</DashboardButton></div>
+          <div className="flex items-center justify-between gap-6 max-sm:flex-col max-sm:items-start"><div><h3 className="font-semibold text-white">Encerrar sessão neste dispositivo.</h3></div><DashboardButton variant="danger" icon={false} onClick={requestLogout} className="min-w-52"><LogOut className="h-4 w-4" />Sair</DashboardButton></div>
         </DashPanel>
       </div>
     </div>

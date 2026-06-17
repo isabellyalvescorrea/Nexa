@@ -61,6 +61,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         emailRedirectTo: `${window.location.origin}/painel`,
         data: {
           full_name: input.fullName,
+          name: input.fullName,
           country: input.country,
         },
       },

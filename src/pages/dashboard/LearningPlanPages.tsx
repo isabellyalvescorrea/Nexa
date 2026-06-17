@@ -26,7 +26,7 @@ import {
   SectionTitle,
   StatChip,
 } from '@/components/dashboard/DashboardPrimitives'
-import { useRequireAuth } from '@/hooks/useRequireAuth'
+import { useDashboardActions } from '@/hooks/useDashboardActions'
 
 const trailPhases = [
   { number: '01', title: 'Primeiro contato', active: true },
@@ -80,7 +80,9 @@ const planStructure = [
 ]
 
 export function StudyTrailsPage() {
-  const requireAuth = useRequireAuth()
+  const { openDemoAction } = useDashboardActions()
+  const openTrailDemo = () => openDemoAction({ title: 'Continuar trilha', variant: 'trail' })
+  const openDemo = (title: string) => openDemoAction(title)
 
   return (
     <div>
@@ -119,9 +121,9 @@ export function StudyTrailsPage() {
                   ))}
                 </div>
                 <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,.85fr)_minmax(0,.9fr)] gap-3 max-md:grid-cols-1">
-                  <DashboardButton variant="primary" className="w-full px-4" onClick={() => requireAuth(() => undefined)}>Continuar trilha</DashboardButton>
-                  <DashboardButton className="w-full px-4" onClick={() => requireAuth(() => undefined)} icon={false}>Ver detalhes</DashboardButton>
-                  <DashboardButton variant="danger" className="w-full px-4" onClick={() => requireAuth(() => undefined)} icon={false}>
+                  <DashboardButton variant="primary" className="w-full px-4" onClick={openTrailDemo}>Continuar trilha</DashboardButton>
+                  <DashboardButton className="w-full px-4" onClick={() => openDemo('Ver detalhes')} icon={false}>Ver detalhes</DashboardButton>
+                  <DashboardButton variant="danger" className="w-full px-4" onClick={() => openDemo('Excluir trilha')} icon={false}>
                     <Trash2 className="h-4 w-4" />
                     Excluir trilha
                   </DashboardButton>
@@ -145,7 +147,7 @@ export function StudyTrailsPage() {
                   </div>
                 ))}
               </div>
-              <DashboardButton className="mt-auto w-full" onClick={() => requireAuth(() => undefined)}>Abrir playlist no YouTube</DashboardButton>
+              <DashboardButton className="mt-auto w-full" onClick={() => openDemo('Abrir playlist no YouTube')}>Abrir playlist no YouTube</DashboardButton>
             </DashPanel>
 
             <LearningCard title="Aulas da IA" description="Módulos em texto gerados pela IA para você aprender os fundamentos da área." items={aiLessons} action="Ver todas as aulas" />
@@ -157,7 +159,7 @@ export function StudyTrailsPage() {
             <p className="mb-3 text-sm text-white/58">Trilhas escolhidas por você. Avance no seu ritmo e retome de onde parou.</p>
             <div className="grid grid-cols-3 items-stretch gap-4 max-lg:grid-cols-1">
               {addedTrails.map((trail) => (
-                <TrailMiniCard key={trail.title} trail={trail} onProtectedAction={() => requireAuth(() => undefined)} />
+                <TrailMiniCard key={trail.title} trail={trail} onProtectedAction={() => openDemo(`Abrir trilha: ${trail.title}`)} />
               ))}
             </div>
             <p className="mt-3 text-center text-xs text-white/45">Você adiciona e remove trilhas quando quiser. O controle é sempre seu.</p>
@@ -170,7 +172,7 @@ export function StudyTrailsPage() {
             <p className="text-sm leading-6 text-white/66">
               Assista à próxima aula da playlist recomendada e continue evoluindo. “Visão geral da área” nas Aulas da IA.
             </p>
-            <DashboardButton className="mt-5 w-full" onClick={() => requireAuth(() => undefined)}>Ir para próximo passo</DashboardButton>
+            <DashboardButton className="mt-5 w-full" onClick={openTrailDemo}>Ir para próximo passo</DashboardButton>
           </DashPanel>
           <DashPanel>
             <SectionTitle>Seu ritmo</SectionTitle>
@@ -214,7 +216,7 @@ function LearningCard({
   items: typeof aiLessons
   action: string
 }) {
-  const requireAuth = useRequireAuth()
+  const { openDemoAction } = useDashboardActions()
 
   return (
     <DashPanel className="flex h-full flex-col">
@@ -231,7 +233,7 @@ function LearningCard({
           </div>
         ))}
       </div>
-      <DashboardButton className="mt-auto w-full" onClick={() => requireAuth(() => undefined)}>{action}</DashboardButton>
+      <DashboardButton className="mt-auto w-full" onClick={() => openDemoAction(action)}>{action}</DashboardButton>
     </DashPanel>
   )
 }
@@ -280,7 +282,7 @@ function RhythmMetric({ icon: Icon, label, value, caption }: { icon: typeof Cloc
 }
 
 export function ActionPlanPage() {
-  const requireAuth = useRequireAuth()
+  const { openDemoAction } = useDashboardActions()
 
   return (
     <div>
@@ -316,8 +318,8 @@ export function ActionPlanPage() {
                 ))}
               </div>
               <div className="mt-4 grid grid-cols-2 gap-3">
-                <DashboardButton variant="primary" onClick={() => requireAuth(() => undefined)} icon={false}>Ver meu plano</DashboardButton>
-                <DashboardButton onClick={() => requireAuth(() => undefined)} icon={false}>Editar plano</DashboardButton>
+                <DashboardButton variant="primary" onClick={() => openDemoAction('Ver meu plano')} icon={false}>Ver meu plano</DashboardButton>
+                <DashboardButton onClick={() => openDemoAction('Editar plano')} icon={false}>Editar plano</DashboardButton>
               </div>
             </DashPanel>
 
@@ -386,7 +388,7 @@ export function ActionPlanPage() {
           <DashPanel>
             <SectionTitle>Ações rápidas</SectionTitle>
             <div className="grid grid-cols-2 gap-3">
-              {['Ver plano', 'Editar objetivo', 'Atualizar rotina', 'Gerar nova versão'].map((action) => <DashboardButton key={action} icon={false} onClick={() => requireAuth(() => undefined)}>{action}</DashboardButton>)}
+              {['Ver plano', 'Editar objetivo', 'Atualizar rotina', 'Gerar nova versão'].map((action) => <DashboardButton key={action} icon={false} onClick={() => openDemoAction(action)}>{action}</DashboardButton>)}
             </div>
           </DashPanel>
         </aside>

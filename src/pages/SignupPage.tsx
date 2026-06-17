@@ -13,9 +13,19 @@ type Feedback = {
   text: string
 }
 
+const profileNameStorageKey = 'nexa-profile-name'
+
+function saveProfileNameFallback(name: string) {
+  try {
+    window.localStorage.setItem(profileNameStorageKey, name)
+  } catch {
+    // Supabase metadata remains the primary source; localStorage is only a panel fallback.
+  }
+}
+
 export function SignupPage() {
   const navigate = useNavigate()
-  const { signUp, signInWithGoogle } = useAuth()
+  const { signUp } = useAuth()
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -62,6 +72,8 @@ export function SignupPage() {
       return
     }
 
+    saveProfileNameFallback(fullName.trim())
+
     if (result.emailConfirmationRequired) {
       setFeedback({
         kind: 'success',
@@ -71,17 +83,6 @@ export function SignupPage() {
     }
 
     navigate('/painel', { replace: true })
-  }
-
-  const handleGoogleSignIn = async () => {
-    setFeedback(null)
-    setSubmitting(true)
-    const result = await signInWithGoogle()
-
-    if (!result.ok) {
-      setSubmitting(false)
-      setFeedback({ kind: 'error', text: result.error ?? 'Não foi possível iniciar o login com Google.' })
-    }
   }
 
   return (
@@ -118,10 +119,52 @@ export function SignupPage() {
         )}
 
         <div className="auth-fields auth-fields--signup grid grid-cols-2 gap-7 max-md:grid-cols-1">
-          <FormField label="Nome completo" placeholder="Seu nome completo" icon={UserRound} name="fullName" value={fullName} onChange={(event) => setFullName(event.target.value)} autoComplete="name" required disabled={submitting} />
-          <FormField label="E-mail" placeholder="seu@email.com" icon={Mail} type="email" name="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required disabled={submitting} />
-          <FormField label="Senha" placeholder="********" icon={Lock} type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" required disabled={submitting} />
-          <FormField label="País" placeholder="Selecione seu país" icon={Globe2} name="country" value={country} onChange={(event) => setCountry(event.target.value)} autoComplete="country-name" options={['Brasil', 'Portugal', 'Estados Unidos', 'Outro']} disabled={submitting} />
+          <FormField
+            label="Nome completo"
+            placeholder="Seu nome completo"
+            icon={UserRound}
+            name="fullName"
+            value={fullName}
+            onChange={(event) => setFullName(event.target.value)}
+            autoComplete="name"
+            required
+            disabled={submitting}
+          />
+          <FormField
+            label="E-mail"
+            placeholder="seu@email.com"
+            icon={Mail}
+            type="email"
+            name="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            autoComplete="email"
+            required
+            disabled={submitting}
+          />
+          <FormField
+            label="Senha"
+            placeholder="********"
+            icon={Lock}
+            type="password"
+            name="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            autoComplete="new-password"
+            required
+            disabled={submitting}
+          />
+          <FormField
+            label="País"
+            placeholder="Selecione seu país"
+            icon={Globe2}
+            name="country"
+            value={country}
+            onChange={(event) => setCountry(event.target.value)}
+            autoComplete="country-name"
+            options={['Brasil', 'Portugal', 'Estados Unidos', 'Outro']}
+            disabled={submitting}
+          />
         </div>
 
         <label className="auth-terms mt-7 flex items-center gap-3 text-sm text-white/62">
@@ -143,17 +186,6 @@ export function SignupPage() {
             {submitting ? 'Criando conta...' : 'Criar conta'}
           </NeonButton>
         </div>
-
-        <div className="auth-divider my-7 grid grid-cols-[1fr_auto_1fr] items-center gap-5 text-sm text-white/60">
-          <span className="h-px bg-white/10" />
-          ou
-          <span className="h-px bg-white/10" />
-        </div>
-
-        <NeonButton variant="light" block className="auth-google-button min-h-[58px] gap-3 text-base" onClick={handleGoogleSignIn} disabled={submitting}>
-          <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full text-xl font-bold text-[#4285f4]">G</span>
-          Continuar com Google
-        </NeonButton>
 
         <p className="auth-security mt-7 text-center text-sm text-white/55">Seus dados estão seguros conosco.</p>
       </form>

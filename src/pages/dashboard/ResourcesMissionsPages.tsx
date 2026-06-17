@@ -25,12 +25,12 @@ import {
   StatChip,
 } from '@/components/dashboard/DashboardPrimitives'
 import { activeMissions, aiMissions, recommendedResources, savedResources } from '@/data/dashboard/internal'
-import { useRequireAuth } from '@/hooks/useRequireAuth'
+import { useDashboardActions } from '@/hooks/useDashboardActions'
 
 const resourceIcons = [Video, FileText, Code2]
 
 export function RecommendedResourcesPage() {
-  const requireAuth = useRequireAuth()
+  const { openDemoAction } = useDashboardActions()
 
   return (
     <div>
@@ -54,13 +54,13 @@ export function RecommendedResourcesPage() {
               </div>
               <div className="mt-5 flex flex-wrap gap-3">
                 <DashboardButton to="/painel/trilhas-de-estudo" variant="primary">Continuar aprendendo</DashboardButton>
-                <DashboardButton onClick={() => requireAuth(() => undefined)}>Explorar recursos</DashboardButton>
+                <DashboardButton onClick={() => openDemoAction('Explorar recursos')}>Explorar recursos</DashboardButton>
               </div>
             </div>
           </DashPanel>
 
           <section>
-            <SectionTitle action={<button className="text-sm text-[#3F9CFF]">Ver todos os salvos →</button>}>Recursos salvos</SectionTitle>
+            <SectionTitle action={<button type="button" onClick={() => openDemoAction('Ver todos os salvos')} className="text-sm text-[#3F9CFF]">Ver todos os salvos →</button>}>Recursos salvos</SectionTitle>
             <div className="grid grid-cols-3 gap-4 max-lg:grid-cols-1">
               {savedResources.map((resource, index) => {
                 const Icon = resourceIcons[index]
@@ -74,7 +74,7 @@ export function RecommendedResourcesPage() {
                     <h3 className="mt-2 flex-1 text-lg font-semibold text-white">{resource.title}</h3>
                     <p className="mt-2 text-sm text-white/58">{resource.meta}</p>
                     <div className="mt-5 flex items-center gap-3"><ProgressBar value={resource.progress} color={resource.color} className="flex-1" /><span className="text-sm">{resource.progress}%</span></div>
-                    <DashboardButton className="mt-4 w-fit" icon={false} onClick={() => requireAuth(() => undefined)}>{index === 0 ? 'Retomar' : index === 1 ? 'Continuar lendo' : 'Praticar agora'}</DashboardButton>
+                    <DashboardButton className="mt-4 w-fit" icon={false} onClick={() => openDemoAction(index === 0 ? 'Retomar recurso' : index === 1 ? 'Continuar lendo' : 'Praticar agora')}>{index === 0 ? 'Retomar' : index === 1 ? 'Continuar lendo' : 'Praticar agora'}</DashboardButton>
                   </DashPanel>
                 )
               })}
@@ -82,18 +82,18 @@ export function RecommendedResourcesPage() {
           </section>
 
           <section>
-            <SectionTitle action={<button className="text-sm text-[#3F9CFF]">Ver todas as recomendações →</button>}>Recomendados para seu momento</SectionTitle>
+            <SectionTitle action={<button type="button" onClick={() => openDemoAction('Ver todas as recomendações')} className="text-sm text-[#3F9CFF]">Ver todas as recomendações →</button>}>Recomendados para seu momento</SectionTitle>
             <div className="grid grid-cols-4 gap-4 max-xl:grid-cols-2 max-sm:grid-cols-1">
               {recommendedResources.map((resource, index) => (
                 <DashPanel key={resource.title} className="flex h-full flex-col">
                   <div className="flex items-start justify-between"><StatChip color={index === 2 ? 'cyan' : index === 1 ? 'blue' : 'pink'}>{resource.type}</StatChip><Bookmark className="h-5 w-5 text-[#C25AFF]" /></div>
                   <h3 className="mt-4 text-lg font-semibold text-white">{resource.title}</h3>
                   <p className="mt-2 flex-1 text-sm leading-6 text-white/64">{resource.description}</p>
-                  <div className="mt-5 flex items-center justify-between gap-3"><span className="flex items-center gap-2 text-xs text-white/58"><Clock3 className="h-4 w-4" />{resource.meta}</span><DashboardButton icon={false} onClick={() => requireAuth(() => undefined)}>{index % 2 ? 'Salvar' : 'Abrir'}</DashboardButton></div>
+                  <div className="mt-5 flex items-center justify-between gap-3"><span className="flex items-center gap-2 text-xs text-white/58"><Clock3 className="h-4 w-4" />{resource.meta}</span><DashboardButton icon={false} onClick={() => openDemoAction(index % 2 ? 'Salvar recurso' : 'Abrir recurso')}>{index % 2 ? 'Salvar' : 'Abrir'}</DashboardButton></div>
                 </DashPanel>
               ))}
             </div>
-            <button type="button" className="mt-4 w-full rounded-lg border border-[#5562FF]/22 py-3 text-sm text-white/72 transition hover:border-[#AE3CFF]/50 hover:text-white">Mostrar mais recomendações ↓</button>
+            <button type="button" onClick={() => openDemoAction('Mostrar mais recomendações')} className="mt-4 w-full rounded-lg border border-[#5562FF]/22 py-3 text-sm text-white/72 transition hover:border-[#AE3CFF]/50 hover:text-white">Mostrar mais recomendações ↓</button>
           </section>
         </div>
 
@@ -117,15 +117,15 @@ export function RecommendedResourcesPage() {
           <DashPanel>
             <SectionTitle>Último acessado</SectionTitle>
             <div className="flex gap-4"><IconTile icon={Play} /><div><p className="text-xs text-[#D25BFF]">VÍDEO</p><h3 className="mt-1 font-semibold text-white">Introdução ao Pandas</h3><ProgressBar value={40} className="mt-3 w-32" /></div></div>
-            <DashboardButton className="mt-5 w-full" onClick={() => requireAuth(() => undefined)}>Retomar agora</DashboardButton>
+            <DashboardButton className="mt-5 w-full" onClick={() => openDemoAction('Retomar último recurso')}>Retomar agora</DashboardButton>
           </DashPanel>
           <DashPanel>
             <SectionTitle>Ações rápidas</SectionTitle>
             <div className="grid gap-2">
-              <DashboardButton icon={false} onClick={() => requireAuth(() => undefined)}>Salvar recurso</DashboardButton>
-              <DashboardButton icon={false}><Filter className="h-4 w-4" />Filtrar por área</DashboardButton>
-              <DashboardButton icon={false}><Star className="h-4 w-4" />Ver apenas favoritos</DashboardButton>
-              <DashboardButton icon={false}><RefreshCw className="h-4 w-4" />Atualizar recomendações</DashboardButton>
+              <DashboardButton icon={false} onClick={() => openDemoAction('Salvar recurso')}><Bookmark className="h-4 w-4" />Salvar recurso</DashboardButton>
+              <DashboardButton icon={false} onClick={() => openDemoAction('Filtrar por área')}><Filter className="h-4 w-4" />Filtrar por área</DashboardButton>
+              <DashboardButton icon={false} onClick={() => openDemoAction('Ver apenas favoritos')}><Star className="h-4 w-4" />Ver apenas favoritos</DashboardButton>
+              <DashboardButton icon={false} onClick={() => openDemoAction('Atualizar recomendações')}><RefreshCw className="h-4 w-4" />Atualizar recomendações</DashboardButton>
             </div>
           </DashPanel>
         </aside>
@@ -139,7 +139,7 @@ function ProfileRow({ label, value }: { label: string; value: string }) {
 }
 
 export function MissionsPage() {
-  const requireAuth = useRequireAuth()
+  const { openDemoAction } = useDashboardActions()
 
   return (
     <div>
@@ -158,7 +158,7 @@ export function MissionsPage() {
                 <h2 className="text-2xl font-bold text-white">Suas missões em andamento</h2>
                 <p className="mt-2 text-white/68">Você já tem missões ativas. Continue de onde parou e mantenha o ritmo!</p>
                 <div className="mt-4 flex flex-wrap gap-3"><StatChip color="blue">4 ativas</StatChip><StatChip>2 concluídas esta semana</StatChip><StatChip color="cyan">1 recomendada pela IA</StatChip></div>
-                <div className="mt-5 flex gap-3"><DashboardButton variant="primary" onClick={() => requireAuth(() => undefined)}>Continuar missão</DashboardButton><DashboardButton icon={false}>Ver todas</DashboardButton></div>
+                <div className="mt-5 flex gap-3"><DashboardButton variant="primary" onClick={() => openDemoAction('Continuar missão')}>Continuar missão</DashboardButton><DashboardButton icon={false} onClick={() => openDemoAction('Ver todas as missões')}>Ver todas</DashboardButton></div>
               </div>
             </div>
           </DashPanel>
@@ -173,7 +173,7 @@ export function MissionsPage() {
                   <p className="mt-2 flex-1 text-xs leading-5 text-white/62">{mission.description}</p>
                   <div className="mt-4 flex items-center gap-3"><ProgressBar value={mission.progress} color={index === 2 ? 'cyan' : index === 1 ? 'blue' : 'gradient'} className="flex-1" /><span className="text-sm">{mission.progress}%</span></div>
                   <p className="mt-3 text-xs text-[#FFC447]">Prazo: {mission.deadline}</p>
-                  <DashboardButton className="mt-3 w-full" icon={false} onClick={() => requireAuth(() => undefined)}>{mission.action}</DashboardButton>
+                  <DashboardButton className="mt-3 w-full" icon={false} onClick={() => openDemoAction(mission.action)}>{mission.action}</DashboardButton>
                 </DashPanel>
               ))}
             </div>
@@ -185,7 +185,7 @@ export function MissionsPage() {
               {aiMissions.map((mission, index) => (
                 <div key={mission.title} className="flex gap-4 rounded-lg border border-white/8 bg-white/[0.018] p-4">
                   <IconTile icon={index === 0 ? Code2 : index === 1 ? Sparkles : Clock3} color={index === 2 ? 'cyan' : index === 1 ? 'blue' : 'pink'} />
-                  <div className="flex min-w-0 flex-1 flex-col"><h3 className="font-semibold text-white">{mission.title}</h3><p className="mt-1 flex-1 text-xs leading-5 text-white/60">{mission.description}</p><DashboardButton className="mt-3" icon={false} onClick={() => requireAuth(() => undefined)}>Adicionar missão</DashboardButton></div>
+                  <div className="flex min-w-0 flex-1 flex-col"><h3 className="font-semibold text-white">{mission.title}</h3><p className="mt-1 flex-1 text-xs leading-5 text-white/60">{mission.description}</p><DashboardButton className="mt-3" icon={false} onClick={() => openDemoAction('Adicionar missão')}>Adicionar missão</DashboardButton></div>
                 </div>
               ))}
             </div>
@@ -204,14 +204,14 @@ export function MissionsPage() {
           </DashPanel>
           <DashPanel>
             <SectionTitle><span className="flex items-center gap-3">Ações rápidas <Zap className="text-[#B45DFF]" /></span></SectionTitle>
-            <div className="grid gap-2">{['Nova missão', 'Filtrar por categoria', 'Ver concluídas', 'Atualizar recomendações'].map((action) => <DashboardButton key={action} onClick={() => requireAuth(() => undefined)}>{action}</DashboardButton>)}</div>
+            <div className="grid gap-2">{['Nova missão', 'Filtrar por categoria', 'Ver concluídas', 'Atualizar recomendações'].map((action) => <DashboardButton key={action} onClick={() => openDemoAction(action)}>{action}</DashboardButton>)}</div>
           </DashPanel>
           <DashPanel>
             <SectionTitle>Concluídas recentemente</SectionTitle>
             <div className="divide-y divide-white/8">
               {[['Criar sua primeira trilha', 'Ontem'], ['Salvar área compatível', '2 dias atrás'], ['Definir meta inicial', '3 dias atrás']].map(([task, date]) => <div key={task} className="flex items-center justify-between gap-4 py-3 text-sm"><span className="flex items-center gap-3 text-white/75"><CheckCircle2 className="h-5 w-5 text-[#6574FF]" />{task}</span><span className="text-xs text-white/48">{date}</span></div>)}
             </div>
-            <DashboardButton className="mt-5 w-full" icon={false}>Ver todas as concluídas</DashboardButton>
+            <DashboardButton className="mt-5 w-full" icon={false} onClick={() => openDemoAction('Ver todas as concluídas')}>Ver todas as concluídas</DashboardButton>
           </DashPanel>
         </aside>
       </div>

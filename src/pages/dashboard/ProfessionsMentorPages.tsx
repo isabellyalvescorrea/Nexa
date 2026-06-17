@@ -22,12 +22,12 @@ import {
   StatChip,
 } from '@/components/dashboard/DashboardPrimitives'
 import { mentorInitialMessages, professionCards } from '@/data/dashboard/internal'
-import { useRequireAuth } from '@/hooks/useRequireAuth'
+import { useDashboardActions } from '@/hooks/useDashboardActions'
 
 const professionIcons = [Code2, BarChart3, Sparkles, Megaphone]
 
 export function ProfessionsPage() {
-  const requireAuth = useRequireAuth()
+  const { openDemoAction } = useDashboardActions()
 
   return (
     <div>
@@ -50,13 +50,13 @@ export function ProfessionsPage() {
               <div className="mt-4 flex flex-wrap gap-3"><StatChip>Personalizado</StatChip><StatChip color="blue">8 profissões salvas</StatChip><StatChip color="cyan">3 comparadas recentemente</StatChip></div>
             </div>
             <div className="grid min-w-52 gap-3 max-lg:col-span-2 max-lg:grid-cols-2 max-sm:col-span-1 max-sm:grid-cols-1">
-              <DashboardButton variant="primary">Explorar recomendações</DashboardButton>
-              <DashboardButton>Ver profissões salvas</DashboardButton>
+              <DashboardButton variant="primary" onClick={() => openDemoAction('Explorar recomendações')}>Explorar recomendações</DashboardButton>
+              <DashboardButton onClick={() => openDemoAction('Ver profissões salvas')}>Ver profissões salvas</DashboardButton>
             </div>
           </DashPanel>
 
           <section>
-            <SectionTitle action={<button className="text-sm text-[#8A66FF]">Ver todas →</button>}>Profissões recomendadas para você</SectionTitle>
+            <SectionTitle action={<button type="button" onClick={() => openDemoAction('Ver todas as profissões recomendadas')} className="text-sm text-[#8A66FF]">Ver todas →</button>}>Profissões recomendadas para você</SectionTitle>
             <div className="grid grid-cols-4 gap-4 max-xl:grid-cols-2 max-sm:grid-cols-1">
               {professionCards.map((profession, index) => {
                 const Icon = professionIcons[index]
@@ -67,7 +67,7 @@ export function ProfessionsPage() {
                     <p className="mt-1 text-sm text-[#9B72FF]">{profession.area}</p>
                     <p className="mt-3 flex-1 text-xs leading-5 text-white/64">{profession.description}</p>
                     <div className="mt-3 flex flex-wrap gap-1.5">{profession.tags.map((tag) => <span key={tag} className="rounded border border-white/8 px-2 py-1 text-[10px] text-white/60">{tag}</span>)}</div>
-                    <div className="mt-4 grid grid-cols-2 gap-2"><DashboardButton icon={false}>Ver profissão</DashboardButton><DashboardButton icon={false} onClick={() => requireAuth(() => undefined)}>Salvar</DashboardButton></div>
+                    <div className="mt-4 grid grid-cols-2 gap-2"><DashboardButton icon={false} onClick={() => openDemoAction(`Ver profissão: ${profession.title}`)}>Ver profissão</DashboardButton><DashboardButton icon={false} onClick={() => openDemoAction(`Salvar profissão: ${profession.title}`)}>Salvar</DashboardButton></div>
                   </DashPanel>
                 )
               })}
@@ -75,12 +75,12 @@ export function ProfessionsPage() {
           </section>
 
           <section>
-            <SectionTitle action={<button className="text-sm text-[#8A66FF]">Ver todas →</button>}>Comparadas recentemente</SectionTitle>
+            <SectionTitle action={<button type="button" onClick={() => openDemoAction('Ver todas as comparações')} className="text-sm text-[#8A66FF]">Ver todas →</button>}>Comparadas recentemente</SectionTitle>
             <div className="grid grid-cols-2 gap-4 max-lg:grid-cols-1">
               {[['Desenvolvedor de Software', 'Analista de Dados'], ['UX/UI Designer', 'Marketing Digital']].map((comparison, index) => (
                 <DashPanel key={comparison.join('-')} className="grid grid-cols-[1fr_auto_1fr_1.4fr] items-center gap-4 max-sm:grid-cols-1">
                   <strong className="text-sm text-white">{comparison[0]}</strong><span className="rounded-full bg-[#16205c] px-2 py-1 text-[10px] text-[#6F88FF]">VS</span><strong className="text-sm text-white">{comparison[1]}</strong>
-                  <div className="text-xs leading-5 text-white/64"><p className="text-emerald-400">✓ Foco: {index ? 'Experiência vs Aquisição' : 'Desenvolvimento vs Análise'}</p><p>✓ Rotina: projetos e relatórios</p><DashboardButton className="mt-2 w-full py-1.5" icon={false}>Continuar comparação</DashboardButton></div>
+                  <div className="text-xs leading-5 text-white/64"><p className="text-emerald-400">✓ Foco: {index ? 'Experiência vs Aquisição' : 'Desenvolvimento vs Análise'}</p><p>✓ Rotina: projetos e relatórios</p><DashboardButton className="mt-2 w-full py-1.5" icon={false} onClick={() => openDemoAction('Continuar comparação')}>Continuar comparação</DashboardButton></div>
                 </DashPanel>
               ))}
             </div>
@@ -112,12 +112,12 @@ export function ProfessionsPage() {
           </DashPanel>
           <DashPanel>
             <SectionTitle>Ações rápidas</SectionTitle>
-            <div className="grid gap-2">{['Comparar profissões', 'Salvar nova profissão', 'Ver favoritas', 'Atualizar recomendações'].map((item) => <DashboardButton key={item} onClick={() => requireAuth(() => undefined)}>{item}</DashboardButton>)}</div>
+            <div className="grid gap-2">{['Comparar profissões', 'Salvar nova profissão', 'Ver favoritas', 'Atualizar recomendações'].map((item) => <DashboardButton key={item} onClick={() => openDemoAction(item)}>{item}</DashboardButton>)}</div>
           </DashPanel>
           <DashPanel>
             <SectionTitle>Última profissão acessada</SectionTitle>
             <div className="flex items-center gap-4"><IconTile icon={BarChart3} /><div><h3 className="font-semibold text-white">Analista de Dados</h3><p className="mt-1 text-xs text-[#9B72FF]">Tecnologia • Salva</p></div></div>
-            <DashboardButton variant="primary" className="mt-5 w-full" icon={false}>Retomar</DashboardButton>
+            <DashboardButton variant="primary" className="mt-5 w-full" icon={false} onClick={() => openDemoAction('Retomar última profissão')}>Retomar</DashboardButton>
           </DashPanel>
         </aside>
       </div>

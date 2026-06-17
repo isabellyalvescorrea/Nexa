@@ -5,7 +5,7 @@ import dashboardAtmosphere from '@/assets/generated/dashboard-atmosphere.webp'
 import { fadeUp, softTransition, staggerContainer } from '@/animations/motion'
 import { NeonButton } from '@/components/NeonButton'
 import { actionTasks, continueRows, journeyStats, progressPoints, studyBars } from '@/data/dashboard'
-import { useRequireAuth } from '@/hooks/useRequireAuth'
+import { useDashboardActions } from '@/hooks/useDashboardActions'
 
 function Panel({ children, className = '' }: { children: ReactNode; className?: string }) {
   return <section className={`glass-panel rounded-nexa p-7 ${className}`}>{children}</section>
@@ -114,7 +114,7 @@ function StudyBars() {
 }
 
 export function DashboardPage() {
-  const requireAuth = useRequireAuth()
+  const { openDemoAction } = useDashboardActions()
 
   return (
     <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="grid grid-cols-[minmax(0,1fr)_452px] gap-6 max-xl:grid-cols-1">
@@ -179,7 +179,11 @@ export function DashboardPage() {
                       <span className="text-sm text-white/68">{row.caption}</span>
                     </div>
                   </div>
-                  <NeonButton variant="ghost" className="min-w-[122px]" onClick={() => requireAuth()}>
+                  <NeonButton
+                    variant="ghost"
+                    className="min-w-[122px]"
+                    onClick={() => openDemoAction({ title: row.action, variant: index === 0 ? 'trail' : 'default' })}
+                  >
                     {row.action}
                   </NeonButton>
                 </motion.div>
@@ -201,7 +205,7 @@ export function DashboardPage() {
               </div>
               <span className="text-white/72">32%</span>
             </div>
-            <NeonButton block className="mt-7 min-h-[58px]" onClick={() => requireAuth()}>
+            <NeonButton block className="mt-7 min-h-[58px]" onClick={() => openDemoAction({ title: 'Continuar estudando', variant: 'trail' })}>
               Continuar estudando
             </NeonButton>
           </Panel>

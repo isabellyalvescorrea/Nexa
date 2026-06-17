@@ -21,7 +21,7 @@ type Feedback = {
 export function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { signIn, signInWithGoogle } = useAuth()
+  const { signIn } = useAuth()
   const locationState = location.state as AuthLocationState | null
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -51,17 +51,6 @@ export function LoginPage() {
     }
 
     navigate(redirectTo, { replace: true })
-  }
-
-  const handleGoogleSignIn = async () => {
-    setFeedback(null)
-    setSubmitting(true)
-    const result = await signInWithGoogle()
-
-    if (!result.ok) {
-      setSubmitting(false)
-      setFeedback({ kind: 'error', text: result.error ?? 'Não foi possível iniciar o login com Google.' })
-    }
   }
 
   return (
@@ -138,23 +127,6 @@ export function LoginPage() {
             {submitting ? 'Entrando...' : 'Entrar'}
           </NeonButton>
         </div>
-
-        <div className="auth-divider my-7 grid grid-cols-[1fr_auto_1fr] items-center gap-5 text-sm text-white/60">
-          <span className="h-px bg-white/10" />
-          ou
-          <span className="h-px bg-white/10" />
-        </div>
-
-        <NeonButton
-          variant="light"
-          block
-          className="auth-google-button min-h-[58px] gap-3 text-base"
-          onClick={handleGoogleSignIn}
-          disabled={submitting}
-        >
-          <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full text-xl font-bold text-[#4285f4]">G</span>
-          Continuar com Google
-        </NeonButton>
 
         <p className="auth-security mt-7 text-center text-sm text-white/55">Seus dados estão seguros conosco.</p>
       </form>
