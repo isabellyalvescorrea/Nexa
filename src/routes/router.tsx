@@ -14,6 +14,7 @@ import {
   SettingsPage,
   SkillMapPage,
   StudyTrailsPage,
+  ThemesPage,
 } from '@/pages/dashboard'
 import { LandingPage } from '@/pages/LandingPage'
 import { LoginPage } from '@/pages/LoginPage'
@@ -54,6 +55,7 @@ export const router = createBrowserRouter([
       { path: 'mentor-ia', element: <MentorPage /> },
       { path: 'mapa-de-habilidades', element: <SkillMapPage /> },
       { path: 'configuracoes', element: <SettingsPage /> },
+      { path: 'configuracoes/temas', element: <ThemesPage /> },
       { path: 'configuracoes/layouts', element: <LayoutsPage /> },
     ],
   },

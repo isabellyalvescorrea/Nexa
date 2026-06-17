@@ -139,9 +139,66 @@ export const mentorInitialMessages = [
   },
 ]
 
+export const panelThemeOptions = [
+  {
+    id: 'nexa',
+    title: 'Nexa Padrão',
+    description: 'Paleta original com roxo, azul e magenta para preservar a identidade aprovada.',
+    colors: ['#F661FD', '#AE3CFF', '#5F3BFF', '#01A2ED'],
+  },
+  {
+    id: 'galaxy',
+    title: 'Galaxy',
+    description: 'Tons profundos de violeta e azul para uma sensação cósmica e sofisticada.',
+    colors: ['#9B5CFF', '#6A4DFF', '#2F5BFF', '#39C6FF'],
+  },
+  {
+    id: 'aurora',
+    title: 'Aurora',
+    description: 'Combina magenta, ciano e verde neon para uma leitura mais vibrante.',
+    colors: ['#F661FD', '#8F5BFF', '#00D8FF', '#28F0B7'],
+  },
+  {
+    id: 'cyber-blue',
+    title: 'Cyber Blue',
+    description: 'Azuis intensos com apoio violeta para um painel mais técnico e limpo.',
+    colors: ['#01A2ED', '#3297FF', '#5F3BFF', '#8E5BEA'],
+  },
+  {
+    id: 'violet-premium',
+    title: 'Violet Premium',
+    description: 'Violeta dominante com magenta e azul profundo para uma experiência mais luxuosa.',
+    colors: ['#F661FD', '#C64BFF', '#7A28FF', '#5184F1'],
+  },
+  {
+    id: 'minimal-neon',
+    title: 'Minimal Neon',
+    description: 'Neon mais contido, com contraste elegante e menor intensidade visual.',
+    colors: ['#AE3CFF', '#7D67FF', '#2DA8FF', '#18D6C7'],
+  },
+  {
+    id: 'emerald-tech',
+    title: 'Emerald Tech',
+    description: 'Verde esmeralda e ciano em uma base tecnologica, com roxo como apoio discreto.',
+    colors: ['#10B981', '#22D3EE', '#0F5C7A', '#5562FF'],
+  },
+  {
+    id: 'solar-dark',
+    title: 'Solar Dark',
+    description: 'Amber, dourado e cobre sobre base escura para um destaque quente e sofisticado.',
+    colors: ['#F59E0B', '#FBBF24', '#C26A1B', '#3B2B4F'],
+  },
+  {
+    id: 'monochrome',
+    title: 'Monochrome',
+    description: 'Preto, branco e cinza com acento azul para um painel mais serio e direto.',
+    colors: ['#F8FAFC', '#94A3B8', '#334155', '#2DA8FF'],
+  },
+] as const
+
 export const layoutOptions = [
-  { id: 'standard', title: 'Padrão', description: 'Equilíbrio entre informações, atalhos e visão geral da sua jornada.' },
+  { id: 'default', title: 'Padrão', description: 'Equilíbrio entre informações, atalhos e visão geral da sua jornada.' },
   { id: 'compact', title: 'Compacto', description: 'Mais conteúdo visível com espaçamentos reduzidos para trabalho frequente.' },
-  { id: 'focus', title: 'Foco', description: 'Prioriza a atividade atual e reduz elementos secundários na tela.' },
-  { id: 'expanded', title: 'Expandido', description: 'Cards amplos e leitura confortável para telas maiores.' },
-]
+  { id: 'comfortable', title: 'Confortável', description: 'Mais respiro entre blocos para leitura calma e acompanhamento prolongado.' },
+  { id: 'focus', title: 'Foco', description: 'Prioriza a atividade atual e reduz a intensidade dos elementos secundários.' },
+] as const

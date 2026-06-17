@@ -92,11 +92,11 @@ export function StudyTrailsPage() {
 
       <div className="grid grid-cols-[minmax(0,1fr)_300px] gap-5 max-2xl:grid-cols-1">
         <div className="space-y-5">
-          <DashPanel accent>
-            <div className="grid grid-cols-[minmax(300px,.82fr)_minmax(360px,1fr)] gap-5 max-lg:grid-cols-1">
-              <div>
+          <DashPanel accent className="dashboard-primary-panel">
+            <div className="grid grid-cols-[minmax(0,0.86fr)_minmax(440px,1.14fr)] gap-6 max-xl:grid-cols-1">
+              <div className="min-w-0">
                 <StatChip>Em andamento</StatChip>
-                <h2 className="mt-4 whitespace-nowrap text-[clamp(1.45rem,1.9vw,2rem)] font-bold text-white max-sm:whitespace-normal">Tecnologia — Primeiros passos</h2>
+                <h2 className="mt-4 max-w-[640px] text-[clamp(1.45rem,1.85vw,2rem)] font-bold leading-tight text-white">Tecnologia — Primeiros passos</h2>
                 <div className="mt-7 grid grid-cols-[1fr_auto] items-center gap-5">
                   <ProgressBar value={32} className="h-3" />
                   <strong className="font-display text-2xl text-white">32%</strong>
@@ -106,22 +106,22 @@ export function StudyTrailsPage() {
                 </p>
               </div>
 
-              <div className="space-y-5">
-                <div className="grid grid-cols-4 items-center gap-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+              <div className="min-w-0 space-y-5">
+                <div className="grid grid-cols-[repeat(4,minmax(112px,1fr))] items-stretch gap-3 max-md:grid-cols-2 max-sm:grid-cols-1">
                   {trailPhases.map((phase, index) => (
                     <div key={phase.title} className="relative">
                       {index > 0 && <span className="absolute -left-4 top-1/2 hidden w-4 border-t border-dotted border-[#AE3CFF]/60 md:block" />}
-                      <div className={phase.active ? 'rounded-lg border border-[#AE3CFF]/70 bg-[#11103a]/72 p-3 shadow-neon' : 'rounded-lg border border-white/10 bg-white/[0.018] p-3'}>
+                      <div className={phase.active ? 'flex min-h-[104px] flex-col rounded-lg border border-[#AE3CFF]/70 bg-[#11103a]/72 p-3.5 shadow-neon' : 'flex min-h-[104px] flex-col rounded-lg border border-white/10 bg-white/[0.018] p-3.5'}>
                         <p className="text-xs text-white/70">{phase.number}</p>
-                        <h3 className="mt-3 font-semibold text-white">{phase.title}</h3>
+                        <h3 className="mt-auto text-sm font-semibold leading-snug text-white sm:text-base">{phase.title}</h3>
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-wrap justify-end gap-3 max-lg:justify-start">
-                  <DashboardButton variant="primary" className="px-4" onClick={() => requireAuth(() => undefined)}>Continuar trilha</DashboardButton>
-                  <DashboardButton className="px-4" onClick={() => requireAuth(() => undefined)} icon={false}>Ver detalhes</DashboardButton>
-                  <DashboardButton variant="danger" onClick={() => requireAuth(() => undefined)} icon={false}>
+                <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,.85fr)_minmax(0,.9fr)] gap-3 max-md:grid-cols-1">
+                  <DashboardButton variant="primary" className="w-full px-4" onClick={() => requireAuth(() => undefined)}>Continuar trilha</DashboardButton>
+                  <DashboardButton className="w-full px-4" onClick={() => requireAuth(() => undefined)} icon={false}>Ver detalhes</DashboardButton>
+                  <DashboardButton variant="danger" className="w-full px-4" onClick={() => requireAuth(() => undefined)} icon={false}>
                     <Trash2 className="h-4 w-4" />
                     Excluir trilha
                   </DashboardButton>
@@ -130,22 +130,22 @@ export function StudyTrailsPage() {
             </div>
           </DashPanel>
 
-          <div className="grid grid-cols-3 gap-4 max-lg:grid-cols-1">
-            <DashPanel className="flex h-full flex-col">
+          <div className="grid grid-cols-3 items-stretch gap-4 max-lg:grid-cols-1">
+            <DashPanel className="flex h-full min-h-[344px] flex-col">
               <SectionTitle>Playlist recomendada</SectionTitle>
               <p className="mb-4 text-sm leading-6 text-white/65">Nossa IA selecionou uma playlist do YouTube para o seu primeiro contato com a área.</p>
-              <div className="space-y-2">
+              <div className="flex-1 space-y-2">
                 {playlistItems.map((item, index) => (
                   <div key={item.title} className="grid grid-cols-[82px_1fr] items-center gap-3 rounded-lg border border-white/8 bg-white/[0.018] p-2">
                     <VideoThumb tone={item.tone} active={index === 0} />
-                    <div>
-                      <h3 className="font-semibold text-white">{item.title}</h3>
+                    <div className="min-w-0">
+                      <h3 className="font-semibold leading-snug text-white">{item.title}</h3>
                       <p className="mt-1 text-xs text-white/58">{item.time}</p>
                     </div>
                   </div>
                 ))}
               </div>
-              <DashboardButton className="mt-4 w-full" onClick={() => requireAuth(() => undefined)}>Abrir playlist no YouTube</DashboardButton>
+              <DashboardButton className="mt-auto w-full" onClick={() => requireAuth(() => undefined)}>Abrir playlist no YouTube</DashboardButton>
             </DashPanel>
 
             <LearningCard title="Aulas da IA" description="Módulos em texto gerados pela IA para você aprender os fundamentos da área." items={aiLessons} action="Ver todas as aulas" />
@@ -155,7 +155,7 @@ export function StudyTrailsPage() {
           <div>
             <SectionTitle>Suas trilhas adicionadas</SectionTitle>
             <p className="mb-3 text-sm text-white/58">Trilhas escolhidas por você. Avance no seu ritmo e retome de onde parou.</p>
-            <div className="grid grid-cols-3 gap-4 max-lg:grid-cols-1">
+            <div className="grid grid-cols-3 items-stretch gap-4 max-lg:grid-cols-1">
               {addedTrails.map((trail) => (
                 <TrailMiniCard key={trail.title} trail={trail} onProtectedAction={() => requireAuth(() => undefined)} />
               ))}
@@ -231,7 +231,7 @@ function LearningCard({
           </div>
         ))}
       </div>
-      <DashboardButton className="mt-4 w-full" onClick={() => requireAuth(() => undefined)}>{action}</DashboardButton>
+      <DashboardButton className="mt-auto w-full" onClick={() => requireAuth(() => undefined)}>{action}</DashboardButton>
     </DashPanel>
   )
 }
@@ -244,23 +244,27 @@ function TrailMiniCard({
   onProtectedAction: () => void
 }) {
   return (
-    <DashPanel className="grid grid-cols-[64px_1fr_auto] items-center gap-4 max-sm:grid-cols-[56px_1fr]">
-      <IconTile icon={trail.icon} color={trail.color} className="h-14 w-14 rounded-xl" />
-      <div className="min-w-0">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold leading-snug text-white">{trail.title}</h3>
-          <StatChip>{trail.status}</StatChip>
+    <DashPanel className="flex h-full flex-col">
+      <div className="flex items-start gap-4">
+        <IconTile icon={trail.icon} color={trail.color} className="h-14 w-14 rounded-xl" />
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <h3 className="min-w-0 max-w-full text-base font-semibold leading-snug text-white [overflow-wrap:anywhere]">{trail.title}</h3>
+            <span className="shrink-0">
+              <StatChip>{trail.status}</StatChip>
+            </span>
+          </div>
+          <div className="mt-4 grid grid-cols-[1fr_42px] items-center gap-3">
+            <ProgressBar value={trail.progress} />
+            <span className="text-sm font-semibold text-white">{trail.progress}%</span>
+          </div>
         </div>
-        <div className="mt-4 grid grid-cols-[1fr_42px] items-center gap-3">
-          <ProgressBar value={trail.progress} />
-          <span className="text-sm font-semibold text-white">{trail.progress}%</span>
-        </div>
-        <div className="mt-4 flex gap-3">
-          <DashboardButton onClick={onProtectedAction} className="min-h-9 flex-1 py-1.5">Abrir trilha</DashboardButton>
-          <DashboardButton icon={false} onClick={onProtectedAction} className="min-h-9 px-3 py-1.5">
-            <MoreHorizontal className="h-4 w-4" />
-          </DashboardButton>
-        </div>
+      </div>
+      <div className="mt-auto flex gap-3 pt-4">
+        <DashboardButton onClick={onProtectedAction} className="min-h-10 flex-1 px-3 py-2 text-center">Abrir trilha</DashboardButton>
+        <DashboardButton icon={false} onClick={onProtectedAction} className="min-h-10 shrink-0 px-3 py-2">
+          <MoreHorizontal className="h-4 w-4" />
+        </DashboardButton>
       </div>
     </DashPanel>
   )

@@ -3,8 +3,10 @@ import {
   PanelPreferencesContext,
   panelPreferenceStorageKeys,
   type PanelFontSize,
+  type PanelLayout,
   type PanelPreferencesContextValue,
   type PanelTheme,
+  type PanelVisualTheme,
 } from '@/hooks/usePanelPreferences'
 
 function readTheme(): PanelTheme {
@@ -17,6 +19,29 @@ function readContrast(): boolean {
   return window.localStorage.getItem(panelPreferenceStorageKeys.contrast) === 'true'
 }
 
+function readVisualTheme(): PanelVisualTheme {
+  if (typeof window === 'undefined') return 'nexa'
+  const stored = window.localStorage.getItem(panelPreferenceStorageKeys.visualTheme)
+  return stored === 'galaxy' ||
+    stored === 'aurora' ||
+    stored === 'cyber-blue' ||
+    stored === 'violet-premium' ||
+    stored === 'minimal-neon' ||
+    stored === 'emerald-tech' ||
+    stored === 'solar-dark' ||
+    stored === 'monochrome'
+    ? stored
+    : 'nexa'
+}
+
+function readPanelLayout(): PanelLayout {
+  if (typeof window === 'undefined') return 'default'
+  const stored = window.localStorage.getItem(panelPreferenceStorageKeys.layout)
+  return stored === 'compact' || stored === 'comfortable' || stored === 'focus' || stored === 'default'
+    ? stored
+    : 'default'
+}
+
 function readFontSize(): PanelFontSize {
   if (typeof window === 'undefined') return 'default'
   const stored = window.localStorage.getItem(panelPreferenceStorageKeys.fontSize)
@@ -25,6 +50,8 @@ function readFontSize(): PanelFontSize {
 
 export function PanelPreferencesProvider({ children }: { children: ReactNode }) {
   const [panelTheme, setPanelTheme] = useState<PanelTheme>(readTheme)
+  const [panelVisualTheme, setPanelVisualTheme] = useState<PanelVisualTheme>(readVisualTheme)
+  const [panelLayout, setPanelLayout] = useState<PanelLayout>(readPanelLayout)
   const [highContrast, setHighContrast] = useState(readContrast)
   const [fontSize, setFontSize] = useState<PanelFontSize>(readFontSize)
 
@@ -37,6 +64,14 @@ export function PanelPreferencesProvider({ children }: { children: ReactNode }) 
   }, [highContrast])
 
   useEffect(() => {
+    window.localStorage.setItem(panelPreferenceStorageKeys.visualTheme, panelVisualTheme)
+  }, [panelVisualTheme])
+
+  useEffect(() => {
+    window.localStorage.setItem(panelPreferenceStorageKeys.layout, panelLayout)
+  }, [panelLayout])
+
+  useEffect(() => {
     window.localStorage.setItem(panelPreferenceStorageKeys.fontSize, fontSize)
   }, [fontSize])
 
@@ -44,12 +79,16 @@ export function PanelPreferencesProvider({ children }: { children: ReactNode }) 
     () => ({
       panelTheme,
       setPanelTheme,
+      panelVisualTheme,
+      setPanelVisualTheme,
+      panelLayout,
+      setPanelLayout,
       highContrast,
       setHighContrast,
       fontSize,
       setFontSize,
     }),
-    [fontSize, highContrast, panelTheme],
+    [fontSize, highContrast, panelLayout, panelTheme, panelVisualTheme],
   )
 
   return <PanelPreferencesContext.Provider value={value}>{children}</PanelPreferencesContext.Provider>

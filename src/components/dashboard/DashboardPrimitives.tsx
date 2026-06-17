@@ -217,4 +217,5 @@ export function StatChip({ children, color = 'pink' }: { children: ReactNode; co
   return <span className={cn('inline-flex rounded-md border px-3 py-1.5 text-xs font-medium', classes[color])}>{children}</span>
 }
 
-export const dashboardTitleGradient = 'bg-gradient-to-r from-[#01A2ED] via-[#5562FF] to-[#F661FD] bg-clip-text text-transparent'
+export const dashboardTitleGradient =
+  'dashboard-title-gradient bg-gradient-to-r from-[#01A2ED] via-[#5562FF] to-[#F661FD] bg-clip-text text-transparent'

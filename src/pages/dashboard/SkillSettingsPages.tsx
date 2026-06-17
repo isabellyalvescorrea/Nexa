@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import type { ReactNode } from 'react'
 import {
   ArrowLeft,
   Check,
-  Expand,
   Focus,
   LayoutDashboard,
   LogOut,
   Moon,
+  Palette,
   Save,
   Settings2,
   Sun,
@@ -23,7 +23,14 @@ import {
   SectionTitle,
   StatChip,
 } from '@/components/dashboard/DashboardPrimitives'
-import { layoutOptions, recentEvolution, skillBars, skillCategories, skillsToImprove } from '@/data/dashboard/internal'
+import {
+  layoutOptions,
+  panelThemeOptions,
+  recentEvolution,
+  skillBars,
+  skillCategories,
+  skillsToImprove,
+} from '@/data/dashboard/internal'
 import { useAuth } from '@/hooks/useAuth'
 import { usePanelPreferences } from '@/hooks/usePanelPreferences'
 import { useRequireAuth } from '@/hooks/useRequireAuth'
@@ -120,9 +127,18 @@ export function SkillMapPage() {
 }
 
 export function SettingsPage() {
-  const { panelTheme, setPanelTheme, highContrast, setHighContrast, fontSize, setFontSize } = usePanelPreferences()
+  const {
+    panelTheme,
+    setPanelTheme,
+    panelVisualTheme,
+    highContrast,
+    setHighContrast,
+    fontSize,
+    setFontSize,
+  } = usePanelPreferences()
   const navigate = useNavigate()
   const { signOut } = useAuth()
+  const selectedVisualTheme = panelThemeOptions.find((theme) => theme.id === panelVisualTheme) ?? panelThemeOptions[0]
 
   const handleSignOut = async () => {
     await signOut()
@@ -164,6 +180,32 @@ export function SettingsPage() {
         </DashPanel>
 
         <DashPanel>
+          <SettingsHeading>Temas</SettingsHeading>
+          <div className="flex items-center justify-between gap-6 max-md:flex-col max-md:items-start">
+            <div>
+              <h3 className="font-semibold text-white">Personalize as cores do painel.</h3>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-white/60">
+                Personalize as cores do painel e escolha uma paleta visual que combine com seu estilo.
+              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                {selectedVisualTheme.colors.map((color) => (
+                  <span
+                    key={color}
+                    className="h-4 w-4 rounded-full border border-white/20 shadow-[0_0_10px_currentColor]"
+                    style={{ backgroundColor: color, color }}
+                  />
+                ))}
+                <span className="text-xs font-semibold text-white/56">{selectedVisualTheme.title}</span>
+              </div>
+            </div>
+            <DashboardButton to="/painel/configuracoes/temas" className="min-w-52" icon={false}>
+              <Palette className="h-4 w-4" />
+              Explorar temas
+            </DashboardButton>
+          </div>
+        </DashPanel>
+
+        <DashPanel>
           <SettingsHeading>Layouts</SettingsHeading>
           <div className="flex items-center justify-between gap-6 max-md:flex-col max-md:items-start">
             <div><h3 className="font-semibold text-white">Organize a visualização da plataforma do seu jeito.</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-white/60">Escolha entre diferentes layouts pensados para seu fluxo de estudo e navegação.</p></div>
@@ -184,19 +226,80 @@ function SettingsHeading({ children }: { children: string }) {
   return <h2 className="mb-5 flex items-center gap-3 text-xl font-semibold text-white"><span className="h-6 w-1 rounded-full bg-gradient-to-b from-[#F661FD] to-[#5562FF]" />{children}</h2>
 }
 
-function Segmented({ children }: { children: React.ReactNode }) {
+function Segmented({ children }: { children: ReactNode }) {
   return <div className="dashboard-segmented grid auto-cols-fr grid-flow-col overflow-hidden rounded-lg border border-white/10 bg-[#08071a] p-1">{children}</div>
 }
 
-function Segment({ children, active, onClick }: { children: React.ReactNode; active: boolean; onClick: () => void }) {
+function Segment({ children, active, onClick }: { children: ReactNode; active: boolean; onClick: () => void }) {
   return <button type="button" onClick={onClick} className={cn('dashboard-segment flex min-h-12 items-center justify-center gap-2 rounded-md px-4 text-sm text-white/70 transition', active && 'dashboard-segment--active border border-[#AE3CFF]/80 bg-[#10132f] text-white shadow-[0_0_14px_rgba(95,59,255,.22)]')}>{children}</button>
 }
 
-const layoutIcons = [LayoutDashboard, Settings2, Focus, Expand]
+const layoutIcons = [LayoutDashboard, Settings2, WandSparkles, Focus]
+
+export function ThemesPage() {
+  const { panelVisualTheme, setPanelVisualTheme } = usePanelPreferences()
+
+  return (
+    <div className="max-w-[1200px]">
+      <DashboardPageHeader
+        eyebrow="Configurações"
+        title={<span className={dashboardTitleGradient}>Temas</span>}
+        description="Escolha uma paleta visual para personalizar as cores do painel sem alterar sua estrutura."
+      />
+      <div className="grid grid-cols-3 gap-5 max-xl:grid-cols-2 max-md:grid-cols-1">
+        {panelThemeOptions.map((theme) => {
+          const active = panelVisualTheme === theme.id
+          return (
+            <DashPanel key={theme.id} accent={active} className="relative flex h-full flex-col">
+              {active && (
+                <span className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-[#AE3CFF]/15 px-3 py-1 text-xs text-[#D874FF]">
+                  <Check className="h-3.5 w-3.5" />
+                  Selecionado
+                </span>
+              )}
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#AE3CFF]/35 bg-[#AE3CFF]/10 text-[#F661FD]">
+                <Palette className="h-6 w-6" />
+              </div>
+              <h2 className="mt-5 text-2xl font-semibold text-white">{theme.title}</h2>
+              <p className="mt-3 flex-1 text-sm leading-6 text-white/64">{theme.description}</p>
+              <div className="mt-5 flex gap-2">
+                {theme.colors.map((color) => (
+                  <span
+                    key={color}
+                    className="h-9 flex-1 rounded-md border border-white/10 shadow-[0_0_14px_currentColor]"
+                    style={{ backgroundColor: color, color }}
+                  />
+                ))}
+              </div>
+              <DashboardButton
+                variant={active ? 'primary' : 'outline'}
+                className="mt-5 w-full"
+                icon={false}
+                onClick={() => setPanelVisualTheme(theme.id)}
+              >
+                {active ? 'Selecionado' : 'Aplicar'}
+              </DashboardButton>
+            </DashPanel>
+          )
+        })}
+      </div>
+      <DashPanel className="mt-6">
+        <p className="text-sm leading-6 text-white/64">
+          Os temas alteram apenas as cores do painel. A estrutura das telas permanece igual.
+        </p>
+      </DashPanel>
+      <div className="mt-6">
+        <DashboardButton to="/painel/configuracoes" icon={false}>
+          <ArrowLeft className="h-4 w-4" />
+          Voltar para configurações
+        </DashboardButton>
+      </div>
+    </div>
+  )
+}
 
 export function LayoutsPage() {
-  const [selected, setSelected] = useState('standard')
-  const requireAuth = useRequireAuth()
+  const { panelLayout, setPanelLayout } = usePanelPreferences()
 
   return (
     <div className="max-w-[1200px]">
@@ -208,7 +311,7 @@ export function LayoutsPage() {
       <div className="grid grid-cols-2 gap-5 max-md:grid-cols-1">
         {layoutOptions.map((layout, index) => {
           const Icon = layoutIcons[index]
-          const active = selected === layout.id
+          const active = panelLayout === layout.id
           return (
             <DashPanel key={layout.id} accent={active} className="relative">
               {active && <span className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-[#AE3CFF]/15 px-3 py-1 text-xs text-[#D874FF]"><Check className="h-3.5 w-3.5" />Selecionado</span>}
@@ -216,19 +319,31 @@ export function LayoutsPage() {
               <h2 className="mt-5 text-2xl font-semibold text-white">{layout.title}</h2>
               <p className="mt-3 min-h-14 text-sm leading-6 text-white/64">{layout.description}</p>
               <div className="dashboard-layout-preview mt-5 grid h-36 grid-cols-4 gap-2 rounded-lg border border-white/8 bg-[#050214] p-3" aria-hidden="true">
-                <span className={cn('dashboard-layout-preview-sidebar rounded bg-[#141333]', layout.id === 'compact' && 'col-span-1')} />
-                <span className={cn('col-span-3 grid gap-2', layout.id === 'focus' && 'col-span-3')}>
-                  <i className="dashboard-layout-preview-main rounded bg-[#1B1741]" /><i className={cn('dashboard-layout-preview-muted rounded bg-[#11142f]', layout.id === 'focus' && 'opacity-35')} />
+                <span className="dashboard-layout-preview-sidebar rounded bg-[#141333]" />
+                <span className={cn('col-span-3 grid gap-2', layout.id === 'compact' && 'gap-1', layout.id === 'comfortable' && 'gap-3')}>
+                  <i className={cn('dashboard-layout-preview-main rounded bg-[#1B1741]', layout.id === 'focus' && 'opacity-90')} />
+                  <i className={cn('dashboard-layout-preview-muted rounded bg-[#11142f]', layout.id === 'focus' && 'opacity-35')} />
                 </span>
               </div>
-              <DashboardButton variant={active ? 'primary' : 'outline'} className="mt-5 w-full" icon={false} onClick={() => setSelected(layout.id)}>{active ? 'Layout aplicado' : 'Escolher layout'}</DashboardButton>
+              <DashboardButton
+                variant={active ? 'primary' : 'outline'}
+                className="mt-5 w-full"
+                icon={false}
+                onClick={() => setPanelLayout(layout.id)}
+              >
+                {active ? 'Selecionado' : 'Aplicar'}
+              </DashboardButton>
             </DashPanel>
           )
         })}
       </div>
+      <DashPanel className="mt-6">
+        <p className="text-sm leading-6 text-white/64">
+          Você pode mudar quando quiser. Seu progresso e dados não serão alterados.
+        </p>
+      </DashPanel>
       <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
         <DashboardButton to="/painel/configuracoes" icon={false}><ArrowLeft className="h-4 w-4" />Voltar para configurações</DashboardButton>
-        <DashboardButton variant="primary" onClick={() => requireAuth(() => undefined)}><WandSparkles className="h-4 w-4" />Aplicar preferência</DashboardButton>
       </div>
     </div>
   )

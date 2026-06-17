@@ -75,7 +75,7 @@ function DashboardLayoutShell() {
   const [open, setOpen] = useState(false)
   const location = useLocation()
   const { user } = useAuth()
-  const { panelTheme, highContrast, fontSize } = usePanelPreferences()
+  const { panelTheme, panelVisualTheme, panelLayout, highContrast, fontSize } = usePanelPreferences()
   const headerLogo = panelTheme === 'light' ? logoNexaLight : logoNexa
   const isOverview = location.pathname === '/painel' || location.pathname === '/painel/'
   const displayName = String(user?.user_metadata?.full_name || user?.email || '').trim()
@@ -105,6 +105,8 @@ function DashboardLayoutShell() {
     <main
       className="dashboard-shell relative min-h-screen overflow-hidden"
       data-panel-theme={panelTheme}
+      data-panel-visual-theme={panelVisualTheme}
+      data-panel-layout={panelLayout}
       data-panel-contrast={highContrast ? 'high' : 'normal'}
       data-panel-font-size={fontSize}
     >
